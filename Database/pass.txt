@@ -1,0 +1,29 @@
+DOCTORS:
+email    	        nationalIdNumber    	firstName   	lastName 	sex     password 	npwzId
+doctor1@email.com 	8749321 		John 		Smith 		MALE    doctor1     	npwzId1
+doctor2@email.com 	5567810 		Emma 		Johnson     	FEMALE 	doctor2     	npwzId2
+doctor3@email.com 	1234567 		Michael 	Williams    	MALE   	doctor3     	npwzId3
+
+PATIENTS:
+email                 nationalIdNumber  firstName   lastName    sex     password    insuranceId
+patient1@email.com    7890123           Olivia      Davis       FEMALE  patient1    insurancep1
+patient2@email.com    2345678           James       Miller      MALE    patient2    insurancep2
+patient3@email.com    8901234           Isabella    Wilson      FEMALE  patient3    insurancep3
+patient4@email.com    4567890           William     Moore       MALE    patient4    insurancep4
+patient5@email.com    6543210           Ava         Taylor      FEMALE  patient5    insurancep5
+
+RECEPTIONISTS:
+email                   nationalIdNumber    firstName   lastName sex        password
+barcic2948@gmail.com    9876543             Sophia      Jones    FEMALE     receptionist1
+receptionist2@email.com 3456789             David       Brown    MALE       receptionist2
+
+ASSISTANTS:
+email                   nationalIdNumber    firstName   lastName sex        password
+assistant1@email.com    9871234             Benjamin    Anderson MALE       assistant1
+assistant2@email.com    5678901             Mia         Thomas   FEMALE     assistant2
+assistant3@email.com    3450129             Alexander   Jackson  MALE       assistant3
+
+SUPERVISORS:
+email                   nationalIdNumber    firstName   lastName sex        password        rightsLevel
+supervisor1@email.com   8765432             Charlotte   White    FEMALE     supervisor1     LOW
+supervisor2@email.com   2109876             Ethan       Harris   MALE       supervisor2     HIGH
