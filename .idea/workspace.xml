@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0c38cbc9-fe07-4cf2-a932-b8cfb3af46f3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/DSA.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Backup/Backup.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/app_user.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/basic_auth_user.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/clinic_staff.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/doctor.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/examination_dictionary.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/lab_assistant.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/lab_examination.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/lab_staff.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/lab_supervisor.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/patient.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/person.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/physical_examination.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/receptionist.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/refresh_token.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Create_Scripts/visit.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/pass.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/readme.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deployment/backend/beaver-backend-0.0.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deployment/backend_live_server/beaver-backend-0.0.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deployment/frontend/dist/assets/index-CACOFYiM.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deployment/frontend/dist/assets/index-DbGdvC0l.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deployment/frontend/dist/clinic.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deployment/frontend/dist/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deployment/readme.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/.idea/Source.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/.idea/jsLibraryMappings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="3CoDlGdmbDawhUUzABrQmH8x69x" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Batch.start-backend.executor&quot;: &quot;Debug&quot;,
+    &quot;Batch.start-frontend.executor&quot;: &quot;Debug&quot;,
+    &quot;JavaScript Debug.index.html.executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/harsh/OneDrive/Desktop/Programming/DSA&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\harsh\\OneDrive\\Desktop\\Programming\\DSA\\Source\\parrot-frontend-main\\parrot-frontend-main\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.29346.242" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0c38cbc9-fe07-4cf2-a932-b8cfb3af46f3" name="Changes" comment="" />
+      <created>1777043178366</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1777043178366</updated>
+      <workItem from="1777043179460" duration="65000" />
+      <workItem from="1777043257025" duration="296000" />
+      <workItem from="1777043589302" duration="374000" />
+      <workItem from="1777044091866" duration="871000" />
+      <workItem from="1777044996370" duration="1040000" />
+      <workItem from="1777046626433" duration="162000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
