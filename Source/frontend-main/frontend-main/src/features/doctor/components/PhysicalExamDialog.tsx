@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for PhysicalExamDialog.tsx.
+ * File: frontend-main/frontend-main/src/features/doctor/components/PhysicalExamDialog.tsx
+ */
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import {
@@ -230,3 +234,5 @@ const PhysicalExamDialog: React.FC<PhysicalExamDialogProps> = ({
 };
 
 export { PhysicalExamDialog };
+
+

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines the methods that this service must provide.
+ * File: backend-main/backend-main/src/main/java/boberbackend/service/DoctorService.java
+ */
 package boberbackend.service;
 
 import boberbackend.controllers.common.BadRequestException;
@@ -27,4 +31,6 @@ public interface DoctorService {
 
     VisitExaminationSearchRes getVisitExaminationList(VisitExaminationListSearchReq req) throws BadRequestException;
 }
+
+
 

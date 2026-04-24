@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for LabAssistantExaminations.tsx.
+ * File: frontend-main/frontend-main/src/features/labAssistant/components/LabAssistantExaminations.tsx
+ */
 import {
   Badge,
   Button,
@@ -102,3 +106,5 @@ const LabAssistantExaminations: React.FC<LabAssistantExaminationsProps> = ({
 };
 
 export { LabAssistantExaminations };
+
+

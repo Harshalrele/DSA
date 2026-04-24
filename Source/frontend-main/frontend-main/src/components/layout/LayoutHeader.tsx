@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Builds the shared page layout used around app pages.
+ * File: frontend-main/frontend-main/src/components/layout/LayoutHeader.tsx
+ */
 import { logOut, selectCurrentUser } from "@/services/state/auth/authSlice";
 import { ClinicLogo, ThemeToggle } from "..";
 import { Button } from "@/components/ui";
@@ -48,3 +52,5 @@ const LayoutHeader: React.FC = () => {
   );
 };
 export { LayoutHeader };
+
+

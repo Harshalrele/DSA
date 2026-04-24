@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Handles JWT token creation, validation, or filtering.
+ * File: backend-main/backend-main/src/main/java/boberbackend/config/jwt/ValidationExceptionHandler.java
+ */
 package boberbackend.config.jwt;
 
 import boberbackend.controllers.common.BadRequestRes;
@@ -34,4 +38,6 @@ public class ValidationExceptionHandler {
         response.getWriter().write(jsonResponse);
     }
 }
+
+
 

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Controls whether a user can access certain frontend pages.
+ * File: frontend-main/frontend-main/src/components/routes/PrivateRoute.tsx
+ */
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import {
   selectCurrentToken,
@@ -36,3 +40,5 @@ const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
 };
 
 export { PrivateRoute };
+
+

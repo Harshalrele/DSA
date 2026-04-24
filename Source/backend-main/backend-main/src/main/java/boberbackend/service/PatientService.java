@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines the methods that this service must provide.
+ * File: backend-main/backend-main/src/main/java/boberbackend/service/PatientService.java
+ */
 package boberbackend.service;
 
 import boberbackend.controllers.receptionist.PatientCreateReq;
@@ -15,4 +19,6 @@ public interface PatientService {
     Patient createPatient(PatientCreateReq req);
 
 }
+
+
 

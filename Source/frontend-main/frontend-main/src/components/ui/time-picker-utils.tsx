@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for time-picker-utils.tsx.
+ * File: frontend-main/frontend-main/src/components/ui/time-picker-utils.tsx
+ */
 /**
  * regular expression to check for valid hour format (01-23)
  */
@@ -200,3 +204,5 @@ export function display12HourValue(hours: number) {
   if (hours % 12 > 9) return `${hours}`;
   return `0${hours % 12}`;
 }
+
+

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Describes request data sent from the frontend to the backend.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/auth/GithubOauth2TokenReq.java
+ */
 package boberbackend.controllers.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,4 +16,6 @@ public class GithubOauth2TokenReq {
     @JsonProperty("code")
     private String code;
 }
+
+
 

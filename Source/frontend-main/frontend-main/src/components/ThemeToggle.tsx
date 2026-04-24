@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for ThemeToggle.tsx.
+ * File: frontend-main/frontend-main/src/components/ThemeToggle.tsx
+ */
 import { Moon, Sun } from "lucide-react";
 import { setTheme } from "@/services/state/theme/themeSlice";
 import {
@@ -41,3 +45,5 @@ const ThemeToggle: React.FC = () => {
 };
 
 export { ThemeToggle };
+
+

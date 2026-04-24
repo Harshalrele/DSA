@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines the methods that this service must provide.
+ * File: backend-main/backend-main/src/main/java/boberbackend/service/auth/LogoutHandlerService.java
+ */
 package boberbackend.service.auth;
 
 import boberbackend.jpa.model.RefreshToken;
@@ -41,4 +45,6 @@ public class LogoutHandlerService implements LogoutHandler {
                 .orElse(null);
     }
 }
+
+
 

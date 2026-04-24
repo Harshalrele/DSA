@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Handles JWT token creation, validation, or filtering.
+ * File: backend-main/backend-main/src/main/java/boberbackend/config/jwt/FilterChainExceptionHandler.java
+ */
 package boberbackend.config.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,4 +36,6 @@ public class FilterChainExceptionHandler extends OncePerRequestFilter {
         }
     }
 }
+
+
 

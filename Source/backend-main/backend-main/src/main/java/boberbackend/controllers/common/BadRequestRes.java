@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Describes response data sent from the backend to the frontend.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/common/BadRequestRes.java
+ */
 package boberbackend.controllers.common;
 
 import boberbackend.enums.BadRequestDictEnum;
@@ -22,4 +26,6 @@ public class BadRequestRes {
         this.value = value;
     }
 }
+
+
 

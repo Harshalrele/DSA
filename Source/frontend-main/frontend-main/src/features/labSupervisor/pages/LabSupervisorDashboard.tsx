@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Shows a dashboard page for this user role.
+ * File: frontend-main/frontend-main/src/features/labSupervisor/pages/LabSupervisorDashboard.tsx
+ */
 import { Button, Calendar } from "@/components/ui";
 import { useGetSupervisorExaminationsQuery } from "../api";
 import { handleError } from "@/utils";
@@ -58,3 +62,5 @@ const LabSupervisorDashboard: React.FC = () => {
 };
 
 export { LabSupervisorDashboard };
+
+

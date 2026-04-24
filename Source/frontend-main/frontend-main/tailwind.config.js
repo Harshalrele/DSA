@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Configures Tailwind CSS styling.
+ * File: frontend-main/frontend-main/tailwind.config.js
+ */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -75,3 +79,4 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate")],
 }
+

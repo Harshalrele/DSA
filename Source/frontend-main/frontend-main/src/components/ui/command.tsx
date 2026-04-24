@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for command.tsx.
+ * File: frontend-main/frontend-main/src/components/ui/command.tsx
+ */
 import * as React from "react"
 import { type DialogProps } from "@radix-ui/react-dialog"
 import { Command as CommandPrimitive } from "cmdk"
@@ -151,3 +155,5 @@ export {
   CommandShortcut,
   CommandSeparator,
 }
+
+

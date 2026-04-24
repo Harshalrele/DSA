@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for Doctor.ts.
+ * File: frontend-main/frontend-main/src/types/Doctor.ts
+ */
 import { ClinicStaff } from ".";
 
 type Doctor = {
@@ -6,3 +10,5 @@ type Doctor = {
   npwzId: string;
 };
 export type { Doctor };
+
+

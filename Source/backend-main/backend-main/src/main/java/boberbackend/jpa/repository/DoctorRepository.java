@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Connects this part of the app to the database using Spring Data JPA.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/repository/DoctorRepository.java
+ */
 package boberbackend.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +18,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long>, JpaSpecif
 
     public Optional<Doctor> findByNpwzId(String npwzId);
 }
+
+
 

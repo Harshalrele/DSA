@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for LaboratoryExamination.ts.
+ * File: frontend-main/frontend-main/src/types/LaboratoryExamination.ts
+ */
 import { Examination, LabExaminationStatus } from "@/types";
 
 type LaboratoryExamination = {
@@ -15,3 +19,5 @@ type LaboratoryExamination = {
   supervisorNotices: string;
 };
 export type { LaboratoryExamination };
+
+

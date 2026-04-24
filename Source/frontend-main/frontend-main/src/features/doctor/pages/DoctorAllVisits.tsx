@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for DoctorAllVisits.tsx.
+ * File: frontend-main/frontend-main/src/features/doctor/pages/DoctorAllVisits.tsx
+ */
 import { AllVisitsSearch } from "@/components";
 import { useGetDoctorVisitsQuery } from "@/features/doctor/api";
 import { VisitSearchRequest } from "@/types";
@@ -37,3 +41,5 @@ const DoctorAllVisits: React.FC = () => {
 };
 
 export { DoctorAllVisits };
+
+

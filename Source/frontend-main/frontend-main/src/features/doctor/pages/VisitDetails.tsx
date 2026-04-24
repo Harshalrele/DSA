@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for VisitDetails.tsx.
+ * File: frontend-main/frontend-main/src/features/doctor/pages/VisitDetails.tsx
+ */
 import {
   Badge,
   Button,
@@ -384,3 +388,5 @@ const VisitDetails: React.FC<VisitDetailsProps> = ({
 };
 
 export { VisitDetails };
+
+

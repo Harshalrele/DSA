@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Receives HTTP requests from the frontend for this feature.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/supervisor/SupervisorController.java
+ */
 package boberbackend.controllers.supervisor;
 
 import boberbackend.controllers.common.LabExaminationSearchReq;
@@ -71,4 +75,6 @@ public class SupervisorController {
     }
 
 }
+
+
 

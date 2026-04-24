@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for CustomUserDetails.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/config/user/CustomUserDetails.java
+ */
 package boberbackend.config.user;
 
 import boberbackend.jpa.model.AppUser;
@@ -51,4 +55,6 @@ public class CustomUserDetails implements UserDetails {
         return appUser.getApproved();
     }
 }
+
+
 

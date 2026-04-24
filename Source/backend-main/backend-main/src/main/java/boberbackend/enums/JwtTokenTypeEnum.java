@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines fixed allowed values used by the backend.
+ * File: backend-main/backend-main/src/main/java/boberbackend/enums/JwtTokenTypeEnum.java
+ */
 package boberbackend.enums;
 
 import lombok.Getter;
@@ -12,4 +16,6 @@ public enum JwtTokenTypeEnum {
         this.header = header;
     }
 }
+
+
 

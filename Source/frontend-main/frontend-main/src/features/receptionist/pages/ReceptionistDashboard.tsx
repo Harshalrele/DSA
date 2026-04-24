@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Shows a dashboard page for this user role.
+ * File: frontend-main/frontend-main/src/features/receptionist/pages/ReceptionistDashboard.tsx
+ */
 import { Button, Calendar } from "@/components/ui";
 import { useGetReceptionistVisitsQuery } from "@/features/receptionist/api";
 import { handleError } from "@/utils";
@@ -64,3 +68,5 @@ const ReceptionistDashboard: React.FC = () => {
 };
 
 export { ReceptionistDashboard };
+
+

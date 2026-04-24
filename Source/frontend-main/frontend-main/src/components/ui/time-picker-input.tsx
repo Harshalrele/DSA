@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for time-picker-input.tsx.
+ * File: frontend-main/frontend-main/src/components/ui/time-picker-input.tsx
+ */
 import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
@@ -129,3 +133,5 @@ const TimePickerInput = React.forwardRef<
 TimePickerInput.displayName = "TimePickerInput";
 
 export { TimePickerInput };
+
+

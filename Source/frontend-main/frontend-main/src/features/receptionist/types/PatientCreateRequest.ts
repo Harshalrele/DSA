@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for PatientCreateRequest.ts.
+ * File: frontend-main/frontend-main/src/features/receptionist/types/PatientCreateRequest.ts
+ */
 import { Sex } from "@/types";
 
 type PatientCreateRequest = {
@@ -9,3 +13,5 @@ type PatientCreateRequest = {
   sex: Sex;
 };
 export type { PatientCreateRequest };
+
+

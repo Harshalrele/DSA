@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for LabExaminationSearchRequest.ts.
+ * File: frontend-main/frontend-main/src/types/LabExaminationSearchRequest.ts
+ */
 import { LabExaminationStatus, RightsLevel } from ".";
 
 type LabExaminationSearchRequest = {
@@ -8,3 +12,5 @@ type LabExaminationSearchRequest = {
   orderedDateTime: string;
 };
 export type { LabExaminationSearchRequest };
+
+

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for store.ts.
+ * File: frontend-main/frontend-main/src/services/state/store.ts
+ */
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./auth/authSlice";
 import themeReducer from "./theme/themeSlice";
@@ -18,3 +22,5 @@ export { store };
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+

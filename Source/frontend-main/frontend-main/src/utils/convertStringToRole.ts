@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for convertStringToRole.ts.
+ * File: frontend-main/frontend-main/src/utils/convertStringToRole.ts
+ */
 import { Role } from "@/types";
 
 const convertStringToRole = (roleString: string): Role => {
@@ -22,3 +26,5 @@ const convertStringToRole = (roleString: string): Role => {
 };
 
 export { convertStringToRole };
+
+

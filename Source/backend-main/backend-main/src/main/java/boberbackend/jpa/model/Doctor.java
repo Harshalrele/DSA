@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for Doctor.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/model/Doctor.java
+ */
 package boberbackend.jpa.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -52,4 +56,6 @@ public class Doctor {
         return Objects.hash(getClinicStaff());
     }
 }
+
+
 

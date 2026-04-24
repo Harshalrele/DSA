@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Shows a dashboard page for this user role.
+ * File: frontend-main/frontend-main/src/features/labAssistant/pages/LabAssistantDashboard.tsx
+ */
 import { Button, Calendar } from "@/components/ui";
 import { useGetAssistantExaminationsQuery } from "../api";
 import { handleError } from "@/utils";
@@ -58,3 +62,5 @@ const LabAssistantDashboard: React.FC = () => {
 };
 
 export { LabAssistantDashboard };
+
+

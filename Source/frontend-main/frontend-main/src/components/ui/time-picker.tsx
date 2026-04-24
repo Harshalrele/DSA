@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for time-picker.tsx.
+ * File: frontend-main/frontend-main/src/components/ui/time-picker.tsx
+ */
 import * as React from "react";
 import { Clock } from "lucide-react";
 import { Label } from "@/components/ui/label";
@@ -60,3 +64,5 @@ const TimePicker: React.FC<TimePickerProps> = ({ date, setDate }) => {
 };
 
 export { TimePicker };
+
+

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for FullMedicalHistory.tsx.
+ * File: frontend-main/frontend-main/src/features/doctor/pages/FullMedicalHistory.tsx
+ */
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetDoctorVisitsQuery } from "../api";
 import { skipToken } from "@reduxjs/toolkit/query";
@@ -52,3 +56,5 @@ const FullMedicalHistory: React.FC = () => {
 };
 
 export { FullMedicalHistory };
+
+

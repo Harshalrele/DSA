@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Receives HTTP requests from the frontend for this feature.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/receptionist/ReceptionistController.java
+ */
 package boberbackend.controllers.receptionist;
 
 import boberbackend.controllers.common.BadRequestException;
@@ -106,4 +110,6 @@ public class ReceptionistController {
         return ResponseEntity.ok(visitService.cancelVisit(req.getVisitId()));
     }
 }
+
+
 

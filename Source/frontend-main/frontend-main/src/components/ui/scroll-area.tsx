@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for scroll-area.tsx.
+ * File: frontend-main/frontend-main/src/components/ui/scroll-area.tsx
+ */
 import * as React from "react"
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
 
@@ -44,3 +48,5 @@ const ScrollBar = React.forwardRef<
 ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName
 
 export { ScrollArea, ScrollBar }
+
+

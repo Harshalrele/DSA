@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Handles JWT token creation, validation, or filtering.
+ * File: backend-main/backend-main/src/main/java/boberbackend/config/jwt/JwtAccessTokenFilter.java
+ */
 package boberbackend.config.jwt;
 
 import boberbackend.config.RSAKeyRecord;
@@ -81,4 +85,6 @@ public class JwtAccessTokenFilter extends OncePerRequestFilter {
         }
     }
 }
+
+
 

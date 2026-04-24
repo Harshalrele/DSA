@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines the methods that this service must provide.
+ * File: backend-main/backend-main/src/main/java/boberbackend/config/db/DbRegisterService.java
+ */
 package boberbackend.config.db;
 
 import boberbackend.enums.ExaminationTypeEnum;
@@ -77,4 +81,6 @@ public class DbRegisterService {
     }
 
 }
+
+
 

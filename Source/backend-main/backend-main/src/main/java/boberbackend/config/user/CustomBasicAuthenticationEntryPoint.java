@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for CustomBasicAuthenticationEntryPoint.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/config/user/CustomBasicAuthenticationEntryPoint.java
+ */
 package boberbackend.config.user;
 
 import jakarta.servlet.ServletException;
@@ -14,4 +18,6 @@ public class CustomBasicAuthenticationEntryPoint implements AuthenticationEntryP
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
     }
 }
+
+
 

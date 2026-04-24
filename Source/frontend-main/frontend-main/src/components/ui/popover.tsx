@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for popover.tsx.
+ * File: frontend-main/frontend-main/src/components/ui/popover.tsx
+ */
 import * as React from "react"
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 
@@ -27,3 +31,5 @@ const PopoverContent = React.forwardRef<
 PopoverContent.displayName = PopoverPrimitive.Content.displayName
 
 export { Popover, PopoverTrigger, PopoverContent }
+
+

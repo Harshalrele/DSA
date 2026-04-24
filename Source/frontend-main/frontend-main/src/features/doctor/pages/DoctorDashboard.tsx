@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Shows a dashboard page for this user role.
+ * File: frontend-main/frontend-main/src/features/doctor/pages/DoctorDashboard.tsx
+ */
 import { Button, Calendar } from "@/components/ui";
 import { useGetDoctorVisitsQuery } from "@/features/doctor/api";
 import { handleError } from "@/utils";
@@ -51,3 +55,5 @@ const DoctorDashboard: React.FC = () => {
 };
 
 export { DoctorDashboard };
+
+

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Describes the data needed to register a patient or doctor account.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/auth/RegisterRequest.java
+ */
 package boberbackend.controllers.auth;
 
 import boberbackend.enums.RoleEnum;
@@ -42,6 +46,8 @@ public class RegisterRequest {
     // Required only when role is DOCTOR.
     private String npwzId;
 }
+
+
 
 
 

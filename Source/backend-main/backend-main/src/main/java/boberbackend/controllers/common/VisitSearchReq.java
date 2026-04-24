@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Describes request data sent from the frontend to the backend.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/common/VisitSearchReq.java
+ */
 package boberbackend.controllers.common;
 
 import boberbackend.enums.VisitStatusEnum;
@@ -30,4 +34,6 @@ public class VisitSearchReq {
     @JsonProperty("scheduledDate")
     private LocalDateTime scheduledDate;
 }
+
+
 

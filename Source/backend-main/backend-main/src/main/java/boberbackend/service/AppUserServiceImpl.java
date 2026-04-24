@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains the main business logic for this service.
+ * File: backend-main/backend-main/src/main/java/boberbackend/service/AppUserServiceImpl.java
+ */
 package boberbackend.service;
 
 import boberbackend.jpa.model.AppUser;
@@ -18,4 +22,6 @@ public class AppUserServiceImpl implements AppUserService {
         return appUserRepository.findByEmail(email);
     }
 }
+
+
 

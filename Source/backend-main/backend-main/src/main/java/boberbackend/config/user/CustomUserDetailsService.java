@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines the methods that this service must provide.
+ * File: backend-main/backend-main/src/main/java/boberbackend/config/user/CustomUserDetailsService.java
+ */
 package boberbackend.config.user;
 
 import boberbackend.service.AppUserService;
@@ -20,4 +24,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new CustomUserDetails(appUserService.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found")));
     }
 }
+
+
 

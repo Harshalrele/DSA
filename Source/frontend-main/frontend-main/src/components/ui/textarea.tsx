@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for textarea.tsx.
+ * File: frontend-main/frontend-main/src/components/ui/textarea.tsx
+ */
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
@@ -22,3 +26,5 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 Textarea.displayName = "Textarea"
 
 export { Textarea }
+
+

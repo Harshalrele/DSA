@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for dialog.tsx.
+ * File: frontend-main/frontend-main/src/components/ui/dialog.tsx
+ */
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
@@ -118,3 +122,5 @@ export {
   DialogTitle,
   DialogDescription,
 }
+
+

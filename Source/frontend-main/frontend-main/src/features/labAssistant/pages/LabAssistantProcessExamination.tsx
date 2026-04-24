@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for LabAssistantProcessExamination.tsx.
+ * File: frontend-main/frontend-main/src/features/labAssistant/pages/LabAssistantProcessExamination.tsx
+ */
 import {
   Badge,
   Button,
@@ -328,3 +332,5 @@ const LabAssistantProcessExamination: React.FC = () => {
 };
 
 export { LabAssistantProcessExamination };
+
+

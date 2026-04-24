@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines fixed allowed values used by the backend.
+ * File: backend-main/backend-main/src/main/java/boberbackend/enums/RoleEnum.java
+ */
 package boberbackend.enums;
 
 public enum RoleEnum {
@@ -9,4 +13,6 @@ public enum RoleEnum {
     LAB_SUPER,
     PATIENT
 }
+
+
 

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for PhysicalExamination.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/model/PhysicalExamination.java
+ */
 package boberbackend.jpa.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -45,4 +49,6 @@ public class PhysicalExamination {
         this.visit = visit;
     }
 }
+
+
 

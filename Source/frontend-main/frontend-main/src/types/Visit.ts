@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for Visit.ts.
+ * File: frontend-main/frontend-main/src/types/Visit.ts
+ */
 import { LaboratoryExamination, PhysicalExamination, VisitStatus } from ".";
 
 type Visit = {
@@ -10,3 +14,5 @@ type Visit = {
   visitStatus: VisitStatus;
 };
 export type { Visit };
+
+

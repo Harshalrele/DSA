@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for sonner.tsx.
+ * File: frontend-main/frontend-main/src/components/ui/sonner.tsx
+ */
 import { useTheme } from "next-themes"
 import { Toaster as Sonner } from "sonner"
 
@@ -27,3 +31,5 @@ const Toaster = ({ ...props }: ToasterProps) => {
 }
 
 export { Toaster }
+
+

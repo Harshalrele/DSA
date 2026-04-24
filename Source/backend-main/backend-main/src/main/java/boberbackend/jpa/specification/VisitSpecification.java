@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for VisitSpecification.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/specification/VisitSpecification.java
+ */
 package boberbackend.jpa.specification;
 
 import boberbackend.controllers.common.VisitSearchReq;
@@ -57,4 +61,6 @@ public class VisitSpecification {
         };
     }
 }
+
+
 

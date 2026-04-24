@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for CreatePatient.tsx.
+ * File: frontend-main/frontend-main/src/features/receptionist/pages/CreatePatient.tsx
+ */
 import {
   Button,
   Card,
@@ -213,3 +217,5 @@ const CreatePatient: React.FC = () => {
 };
 
 export { CreatePatient };
+
+

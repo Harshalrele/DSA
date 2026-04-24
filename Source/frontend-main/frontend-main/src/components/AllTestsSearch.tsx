@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for AllTestsSearch.tsx.
+ * File: frontend-main/frontend-main/src/components/AllTestsSearch.tsx
+ */
 import { z } from "zod";
 
 import { cn } from "@/lib/utils";
@@ -237,3 +241,5 @@ const AllTestsSearch: React.FC<AllTestsSearchProps> = ({
 };
 
 export { AllTestsSearch };
+
+

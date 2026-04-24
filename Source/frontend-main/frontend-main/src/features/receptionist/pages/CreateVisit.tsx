@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for CreateVisit.tsx.
+ * File: frontend-main/frontend-main/src/features/receptionist/pages/CreateVisit.tsx
+ */
 import {
   Button,
   Calendar,
@@ -370,3 +374,5 @@ const CreateVisit: React.FC = () => {
 };
 
 export { CreateVisit };
+
+

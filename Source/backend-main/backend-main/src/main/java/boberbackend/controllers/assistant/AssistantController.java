@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Receives HTTP requests from the frontend for this feature.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/assistant/AssistantController.java
+ */
 package boberbackend.controllers.assistant;
 
 import boberbackend.controllers.common.BadRequestException;
@@ -67,4 +71,6 @@ public class AssistantController {
     }
 
 }
+
+
 

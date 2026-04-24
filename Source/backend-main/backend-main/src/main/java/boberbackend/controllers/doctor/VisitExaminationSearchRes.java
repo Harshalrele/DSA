@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Describes response data sent from the backend to the frontend.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/doctor/VisitExaminationSearchRes.java
+ */
 package boberbackend.controllers.doctor;
 
 import boberbackend.jpa.model.LabExamination;
@@ -18,4 +22,6 @@ public class VisitExaminationSearchRes {
     @JsonProperty("labExaminationList")
     private List<LabExamination> labExaminationList;
 }
+
+
 

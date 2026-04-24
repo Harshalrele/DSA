@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for alert-dialog.tsx.
+ * File: frontend-main/frontend-main/src/components/ui/alert-dialog.tsx
+ */
 import * as React from "react"
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 
@@ -137,3 +141,5 @@ export {
   AlertDialogAction,
   AlertDialogCancel,
 }
+
+

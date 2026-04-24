@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for Errors.ts.
+ * File: frontend-main/frontend-main/src/types/Errors.ts
+ */
 type ApiError = {
   data: {
     error: string;
@@ -20,3 +24,5 @@ type BackendError = {
 };
 
 export type { ApiError, BackendError };
+
+

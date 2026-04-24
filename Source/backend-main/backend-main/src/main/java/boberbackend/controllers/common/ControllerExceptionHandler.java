@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for ControllerExceptionHandler.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/common/ControllerExceptionHandler.java
+ */
 package boberbackend.controllers.common;
 
 import boberbackend.enums.BadRequestDictEnum;
@@ -43,4 +47,6 @@ public class ControllerExceptionHandler {
     }
 
 }
+
+
 

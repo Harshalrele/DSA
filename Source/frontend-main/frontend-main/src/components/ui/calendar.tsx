@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for calendar.tsx.
+ * File: frontend-main/frontend-main/src/components/ui/calendar.tsx
+ */
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker } from "react-day-picker"
@@ -62,3 +66,5 @@ function Calendar({
 Calendar.displayName = "Calendar"
 
 export { Calendar }
+
+

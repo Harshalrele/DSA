@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Receives HTTP requests from the frontend for this feature.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/auth/OAuth2LoginController.java
+ */
 package boberbackend.controllers.auth;
 
 import boberbackend.controllers.common.BadRequestException;
@@ -28,4 +32,6 @@ public class OAuth2LoginController {
         return ResponseEntity.ok(authService.getJwtTokensAfterAuthentication(authentication, response));
     }
 }
+
+
 

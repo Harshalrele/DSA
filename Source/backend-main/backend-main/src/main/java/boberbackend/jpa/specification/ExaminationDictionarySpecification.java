@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for ExaminationDictionarySpecification.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/specification/ExaminationDictionarySpecification.java
+ */
 package boberbackend.jpa.specification;
 
 import boberbackend.controllers.doctor.ExaminationDictSearchReq;
@@ -24,4 +28,6 @@ public class ExaminationDictionarySpecification {
     }
 
 }
+
+
 

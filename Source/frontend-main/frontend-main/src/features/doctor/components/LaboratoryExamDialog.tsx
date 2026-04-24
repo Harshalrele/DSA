@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for LaboratoryExamDialog.tsx.
+ * File: frontend-main/frontend-main/src/features/doctor/components/LaboratoryExamDialog.tsx
+ */
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import {
@@ -229,3 +233,5 @@ const LaboratoryExamDialog: React.FC<LaboratoryExamDialogProps> = ({
 };
 
 export { LaboratoryExamDialog };
+
+

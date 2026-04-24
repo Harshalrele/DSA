@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for index.ts.
+ * File: frontend-main/frontend-main/src/features/doctor/api/index.ts
+ */
 import {
   useGetExaminationsQuery,
   useGetDoctorVisitsQuery,
@@ -29,3 +33,5 @@ export {
   useLazyGetVisitExaminationsQuery,
   useLazyGetVisitQuery,
 };
+
+

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for DoctorPhysicalExamination.tsx.
+ * File: frontend-main/frontend-main/src/features/doctor/components/DoctorPhysicalExamination.tsx
+ */
 import {
   Badge,
   Button,
@@ -118,3 +122,5 @@ const DoctorPhysicalExamination: React.FC<DoctorPhysicalExaminationProps> = ({
 };
 
 export { DoctorPhysicalExamination };
+
+

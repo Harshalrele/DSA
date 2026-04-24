@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Describes request data sent from the frontend to the backend.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/receptionist/PatientCreateReq.java
+ */
 package boberbackend.controllers.receptionist;
 
 import boberbackend.enums.SexEnum;
@@ -19,4 +23,6 @@ public class PatientCreateReq {
     @JsonProperty("insuranceId")
     private String insuranceId;
 }
+
+
 

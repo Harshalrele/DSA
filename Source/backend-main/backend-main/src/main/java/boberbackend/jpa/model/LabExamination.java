@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for LabExamination.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/model/LabExamination.java
+ */
 package boberbackend.jpa.model;
 
 import boberbackend.enums.LaboratoryStatusEnum;
@@ -75,3 +79,5 @@ public class LabExamination {
     }
 
 }
+
+

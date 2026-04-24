@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for ReceptionistAllVisits.tsx.
+ * File: frontend-main/frontend-main/src/features/receptionist/pages/ReceptionistAllVisits.tsx
+ */
 import { AllVisitsSearch } from "@/components";
 import { useGetReceptionistVisitsQuery } from "@/features/receptionist/api";
 import { VisitSearchRequest } from "@/types";
@@ -42,3 +46,5 @@ const ReceptionistAllVisits: React.FC = () => {
 };
 
 export { ReceptionistAllVisits };
+
+

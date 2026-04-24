@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Configures login, JWT security, public register access, and protected API routes.
+ * File: backend-main/backend-main/src/main/java/boberbackend/config/SecurityConfiguration.java
+ */
 package boberbackend.config;
 
 import boberbackend.config.jwt.FilterChainExceptionHandler;
@@ -175,4 +179,6 @@ public class SecurityConfiguration extends SecurityConfigurerAdapter<DefaultSecu
         return new CustomBasicAuthenticationEntryPoint();
     }
 }
+
+
 

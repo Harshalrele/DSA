@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Allows the React frontend to call this backend through CORS.
+ * File: backend-main/backend-main/src/main/java/boberbackend/config/WebMvcConfiguration.java
+ */
 package boberbackend.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -24,4 +28,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     }
 
 }
+
+
 

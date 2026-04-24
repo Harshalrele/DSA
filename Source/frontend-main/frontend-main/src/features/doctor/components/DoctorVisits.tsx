@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for DoctorVisits.tsx.
+ * File: frontend-main/frontend-main/src/features/doctor/components/DoctorVisits.tsx
+ */
 import { VisitSearchResponse, VisitStatus } from "@/types";
 import {
   Badge,
@@ -103,3 +107,5 @@ const DoctorVisits: React.FC<DoctorVisitsProps> = ({ visits, isLoading }) => {
 };
 
 export { DoctorVisits };
+
+

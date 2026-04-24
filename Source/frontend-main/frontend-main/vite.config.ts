@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Configures Vite, the frontend development server and build tool.
+ * File: frontend-main/frontend-main/vite.config.ts
+ */
 import path from "path";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
@@ -10,3 +14,5 @@ export default defineConfig({
     },
   },
 });
+
+

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains the main business logic for this service.
+ * File: backend-main/backend-main/src/main/java/boberbackend/service/auth/Oauth2LoginServiceImpl.java
+ */
 package boberbackend.service.auth;
 
 import boberbackend.controllers.auth.GithubOauth2TokenReq;
@@ -93,4 +97,6 @@ public class Oauth2LoginServiceImpl implements OAuth2LoginService {
     }
 
 }
+
+
 

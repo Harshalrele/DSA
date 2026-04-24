@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Adds demo users and examination data when the local database is empty.
+ * File: backend-main/backend-main/src/main/java/boberbackend/config/db/PreloadDb.java
+ */
 package boberbackend.config.db;
 
 import boberbackend.enums.ExaminationTypeEnum;
@@ -91,3 +95,5 @@ public class PreloadDb {
     }
 
 }
+
+

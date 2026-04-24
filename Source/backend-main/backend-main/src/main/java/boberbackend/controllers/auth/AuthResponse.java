@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for AuthResponse.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/auth/AuthResponse.java
+ */
 package boberbackend.controllers.auth;
 
 import boberbackend.enums.JwtTokenTypeEnum;
@@ -21,3 +25,5 @@ public class AuthResponse {
     @JsonProperty("user_name")
     private String userName;
 }
+
+

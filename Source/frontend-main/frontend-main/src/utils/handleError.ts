@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for handleError.ts.
+ * File: frontend-main/frontend-main/src/utils/handleError.ts
+ */
 import { ApiError, BackendError } from "@/types";
 import { toast } from "sonner";
 
@@ -24,3 +28,5 @@ const handleError = (error: unknown): void => {
 };
 
 export { handleError };
+
+

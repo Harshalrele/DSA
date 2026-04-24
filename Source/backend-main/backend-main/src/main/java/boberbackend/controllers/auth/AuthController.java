@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Provides backend endpoints for login, register, and refresh-token.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/auth/AuthController.java
+ */
 package boberbackend.controllers.auth;
 
 import boberbackend.config.db.DbRegisterService;
@@ -98,6 +102,8 @@ public class AuthController {
     }
 
 }
+
+
 
 
 

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Connects this part of the app to the database using Spring Data JPA.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/repository/BasicAuthUserRepository.java
+ */
 package boberbackend.jpa.repository;
 
 import boberbackend.jpa.model.AppUser;
@@ -11,4 +15,6 @@ import java.util.Optional;
 public interface BasicAuthUserRepository extends JpaRepository<BasicAuthUser, Long> {
     public Optional<BasicAuthUser> findByUser(AppUser user);
 }
+
+
 

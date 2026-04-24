@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for LabAssistant.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/model/LabAssistant.java
+ */
 package boberbackend.jpa.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -46,4 +50,6 @@ public class LabAssistant {
         return Objects.hash(getLabStaff());
     }
 }
+
+
 

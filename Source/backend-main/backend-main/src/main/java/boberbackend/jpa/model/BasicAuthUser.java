@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for BasicAuthUser.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/model/BasicAuthUser.java
+ */
 package boberbackend.jpa.model;
 
 import jakarta.persistence.*;
@@ -30,4 +34,6 @@ public class BasicAuthUser {
         this.password = password;
     }
 }
+
+
 

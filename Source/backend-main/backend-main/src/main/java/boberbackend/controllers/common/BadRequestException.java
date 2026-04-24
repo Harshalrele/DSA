@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for BadRequestException.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/common/BadRequestException.java
+ */
 package boberbackend.controllers.common;
 
 import boberbackend.enums.BadRequestDictEnum;
@@ -19,4 +23,6 @@ public class BadRequestException extends AuthenticationException {
     }
 
 }
+
+
 

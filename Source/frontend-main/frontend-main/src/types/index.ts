@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for index.ts.
+ * File: frontend-main/frontend-main/src/types/index.ts
+ */
 import { User } from "./User";
 import { Role } from "./Role";
 import { Theme } from "./Theme";
@@ -42,3 +46,5 @@ export type {
   VisitSearchResponse,
 };
 export { LabExaminationStatus, RightsLevel, Role, Sex, VisitStatus };
+
+

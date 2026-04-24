@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for Visit.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/model/Visit.java
+ */
 package boberbackend.jpa.model;
 
 import boberbackend.enums.VisitStatusEnum;
@@ -69,4 +73,6 @@ public class Visit {
     }
 
 }
+
+
 

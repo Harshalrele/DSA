@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Builds one visible page in the frontend.
+ * File: frontend-main/frontend-main/src/pages/UnauthorizedPage.tsx
+ */
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui";
 import { useAppSelector } from "@/hooks";
@@ -27,3 +31,5 @@ const UnauthorizedPage: React.FC = () => {
 };
 
 export { UnauthorizedPage };
+
+

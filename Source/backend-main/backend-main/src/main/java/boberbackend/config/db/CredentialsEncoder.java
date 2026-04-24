@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Prints encoded demo login credentials for testing.
+ * File: backend-main/backend-main/src/main/java/boberbackend/config/db/CredentialsEncoder.java
+ */
 package boberbackend.config.db;
 
 import org.slf4j.Logger;
@@ -29,4 +33,6 @@ public class CredentialsEncoder {
     }
 
 }
+
+
 

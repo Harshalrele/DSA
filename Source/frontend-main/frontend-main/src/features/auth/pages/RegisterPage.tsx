@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Shows the register screen and creates patient or doctor accounts.
+ * File: frontend-main/frontend-main/src/features/auth/pages/RegisterPage.tsx
+ */
 import {
   Button,
   Card,
@@ -330,5 +334,7 @@ const RegisterPage: React.FC = () => {
 };
 
 export { RegisterPage };
+
+
 
 

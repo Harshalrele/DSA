@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Builds one visible page in the frontend.
+ * File: frontend-main/frontend-main/src/pages/NotFoundPage.tsx
+ */
 import { Button } from "@/components/ui";
 import { Link } from "react-router-dom";
 
@@ -15,3 +19,5 @@ const NotFoundPage: React.FC = () => {
 };
 
 export { NotFoundPage };
+
+

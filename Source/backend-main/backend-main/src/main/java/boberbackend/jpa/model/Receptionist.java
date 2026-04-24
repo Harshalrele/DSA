@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for Receptionist.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/model/Receptionist.java
+ */
 package boberbackend.jpa.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -46,3 +50,5 @@ public class Receptionist {
         return Objects.hash(getClinicStaff());
     }
 }
+
+

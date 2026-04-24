@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for VisitSearchRequest.ts.
+ * File: frontend-main/frontend-main/src/types/VisitSearchRequest.ts
+ */
 import { VisitStatus } from ".";
 
 type VisitSearchRequest = {
@@ -11,3 +15,5 @@ type VisitSearchRequest = {
   scheduledDate: string;
 };
 export type { VisitSearchRequest };
+
+

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for LabExaminationSpecification.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/specification/LabExaminationSpecification.java
+ */
 package boberbackend.jpa.specification;
 
 import jakarta.persistence.criteria.*;
@@ -51,4 +55,6 @@ public class LabExaminationSpecification {
         };
     }
 }
+
+
 

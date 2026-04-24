@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines API calls from the frontend to the backend.
+ * File: frontend-main/frontend-main/src/features/auth/api/authApiSlice.ts
+ */
 import { apiSlice } from "@/services/api/apiSlice";
 import { AuthResult } from "@/types";
 import { LoginValues } from "../types";
@@ -40,5 +44,7 @@ const authApiSlice = apiSlice.injectEndpoints({
 });
 
 export const { useLoginMutation, useRegisterMutation } = authApiSlice;
+
+
 
 

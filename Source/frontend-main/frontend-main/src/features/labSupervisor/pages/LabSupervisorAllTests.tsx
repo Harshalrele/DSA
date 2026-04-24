@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for LabSupervisorAllTests.tsx.
+ * File: frontend-main/frontend-main/src/features/labSupervisor/pages/LabSupervisorAllTests.tsx
+ */
 import { LabExaminationSearchRequest } from "@/types";
 import { handleError } from "@/utils";
 import { useEffect, useState } from "react";
@@ -40,3 +44,5 @@ const LabSupervisorAllTests: React.FC = () => {
 };
 
 export { LabSupervisorAllTests };
+
+

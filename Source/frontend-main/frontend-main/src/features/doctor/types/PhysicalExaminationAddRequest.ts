@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for PhysicalExaminationAddRequest.ts.
+ * File: frontend-main/frontend-main/src/features/doctor/types/PhysicalExaminationAddRequest.ts
+ */
 type PhysicalExaminationAddRequest = {
   result: string;
   examinationDictCode: string;
@@ -5,3 +9,5 @@ type PhysicalExaminationAddRequest = {
   examinationDateTime: string;
 };
 export type { PhysicalExaminationAddRequest };
+
+

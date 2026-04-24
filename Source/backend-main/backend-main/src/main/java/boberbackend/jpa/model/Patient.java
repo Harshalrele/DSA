@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for Patient.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/model/Patient.java
+ */
 package boberbackend.jpa.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,4 +36,6 @@ public class Patient {
         this.insuranceId = insuranceId;
     }
 }
+
+
 

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for LabSupervisor.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/model/LabSupervisor.java
+ */
 package boberbackend.jpa.model;
 
 import boberbackend.enums.RightsLevelEnum;
@@ -55,4 +59,6 @@ public class LabSupervisor {
         return Objects.hash(getLabStaff());
     }
 }
+
+
 

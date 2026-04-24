@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines the frontend routes and decides which page to show.
+ * File: frontend-main/frontend-main/src/App.tsx
+ */
 import {
   Navigate,
   RouterProvider,
@@ -215,3 +219,5 @@ const App: React.FC = () => {
 };
 
 export { App };
+
+

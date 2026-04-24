@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines API calls from the frontend to the backend.
+ * File: frontend-main/frontend-main/src/features/receptionist/api/receptionistApiSlice.ts
+ */
 import { apiSlice } from "@/services/api/apiSlice";
 import {
   Doctor,
@@ -106,3 +110,5 @@ export const {
   useLazyGetPatientsQuery,
   useLazyGetReceptionistVisitsQuery,
 } = receptionistApiSlice;
+
+

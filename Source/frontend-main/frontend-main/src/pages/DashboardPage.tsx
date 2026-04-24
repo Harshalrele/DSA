@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Shows a dashboard page for this user role.
+ * File: frontend-main/frontend-main/src/pages/DashboardPage.tsx
+ */
 import { useAppSelector } from "@/hooks";
 import { selectCurrentUser } from "@/services/state/auth/authSlice";
 import { Role } from "@/types";
@@ -37,3 +41,5 @@ const DashboardPage: React.FC = () => {
 };
 
 export { DashboardPage };
+
+

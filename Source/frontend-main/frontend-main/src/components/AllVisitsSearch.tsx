@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for AllVisitsSearch.tsx.
+ * File: frontend-main/frontend-main/src/components/AllVisitsSearch.tsx
+ */
 import { z } from "zod";
 import {
   Button,
@@ -325,3 +329,5 @@ const AllVisitsSearch: React.FC<AllVisitsSearchProps> = ({
 };
 
 export { AllVisitsSearch };
+
+

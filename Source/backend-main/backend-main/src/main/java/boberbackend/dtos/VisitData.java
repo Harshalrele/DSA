@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Carries data between backend layers or API responses.
+ * File: backend-main/backend-main/src/main/java/boberbackend/dtos/VisitData.java
+ */
 package boberbackend.dtos;
 
 import boberbackend.jpa.model.Person;
@@ -9,4 +13,6 @@ public class VisitData {
     @JsonProperty("doctor")
     private Person assignedDoctor;
 }
+
+
 

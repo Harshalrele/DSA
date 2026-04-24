@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines the methods that this service must provide.
+ * File: backend-main/backend-main/src/main/java/boberbackend/service/ExaminationDictionaryService.java
+ */
 package boberbackend.service;
 
 import boberbackend.controllers.doctor.ExaminationDictSearchReq;
@@ -12,4 +16,6 @@ public interface ExaminationDictionaryService {
     public ExaminationDictionary findByExaminationCode(String code) throws Exception;
 
 }
+
+
 

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Stores and updates frontend state for this feature.
+ * File: frontend-main/frontend-main/src/services/state/theme/themeSlice.ts
+ */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { Theme } from "@/types";
@@ -44,3 +48,5 @@ export const selectCurrentTheme = (state: RootState): Theme =>
   state.theme.theme;
 
 export default themeSlice.reducer;
+
+

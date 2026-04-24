@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Stores and updates frontend state for this feature.
+ * File: frontend-main/frontend-main/src/services/state/auth/authSlice.ts
+ */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { User } from "@/types";
@@ -60,3 +64,5 @@ export const selectIsAuthenticated = (state: RootState): boolean =>
   !!state.auth.token && !!state.auth.user;
 
 export default authSlice.reducer;
+
+

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Starts the Bober Clinic backend server.
+ * File: backend-main/backend-main/src/main/java/boberbackend/BoberBackendApplication.java
+ */
 package boberbackend;
 
 import boberbackend.config.RSAKeyRecord;
@@ -14,4 +18,6 @@ public class BoberBackendApplication {
 	}
 
 }
+
+
 

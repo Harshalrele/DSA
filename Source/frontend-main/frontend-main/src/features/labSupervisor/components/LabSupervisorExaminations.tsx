@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for LabSupervisorExaminations.tsx.
+ * File: frontend-main/frontend-main/src/features/labSupervisor/components/LabSupervisorExaminations.tsx
+ */
 import {
   Badge,
   Button,
@@ -102,3 +106,5 @@ const LabSupervisorExaminations: React.FC<LabSupervisorExaminationsProps> = ({
 };
 
 export { LabSupervisorExaminations };
+
+

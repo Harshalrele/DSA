@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Receives HTTP requests from the frontend for this feature.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/doctor/DoctorController.java
+ */
 package boberbackend.controllers.doctor;
 
 import boberbackend.controllers.common.BadRequestException;
@@ -122,4 +126,6 @@ public class DoctorController {
     }
 
 }
+
+
 

@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Provides helper methods reused by backend code.
+ * File: backend-main/backend-main/src/main/java/boberbackend/utils/BeaverUtils.java
+ */
 package boberbackend.utils;
 
 import java.time.LocalDateTime;
@@ -12,4 +16,6 @@ public class BeaverUtils {
     }
 
 }
+
+
 

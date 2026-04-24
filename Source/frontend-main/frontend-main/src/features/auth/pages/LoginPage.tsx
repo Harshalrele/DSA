@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Shows the login screen and sends credentials to the backend.
+ * File: frontend-main/frontend-main/src/features/auth/pages/LoginPage.tsx
+ */
 import {
   Button,
   Card,
@@ -187,6 +191,8 @@ const LoginPage: React.FC = () => {
 };
 
 export { LoginPage };
+
+
 
 
 

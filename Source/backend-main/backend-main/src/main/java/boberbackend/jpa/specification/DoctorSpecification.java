@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for DoctorSpecification.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/specification/DoctorSpecification.java
+ */
 package boberbackend.jpa.specification;
 
 import jakarta.persistence.criteria.Join;
@@ -35,4 +39,6 @@ public class DoctorSpecification {
     }
 
 }
+
+
 

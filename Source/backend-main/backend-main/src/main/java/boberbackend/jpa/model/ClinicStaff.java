@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for ClinicStaff.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/model/ClinicStaff.java
+ */
 package boberbackend.jpa.model;
 
 import jakarta.persistence.*;
@@ -32,4 +36,6 @@ public class ClinicStaff {
     }
 
 }
+
+
 

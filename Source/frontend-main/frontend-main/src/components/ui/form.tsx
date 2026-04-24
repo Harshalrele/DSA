@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for form.tsx.
+ * File: frontend-main/frontend-main/src/components/ui/form.tsx
+ */
 import * as React from "react"
 import * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
@@ -174,3 +178,5 @@ export {
   FormMessage,
   FormField,
 }
+
+

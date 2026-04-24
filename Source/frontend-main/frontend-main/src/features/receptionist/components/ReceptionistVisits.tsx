@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for ReceptionistVisits.tsx.
+ * File: frontend-main/frontend-main/src/features/receptionist/components/ReceptionistVisits.tsx
+ */
 import {
   AlertDialog,
   AlertDialogAction,
@@ -140,3 +144,5 @@ const ReceptionistVisits: React.FC<ReceptionistVisitsProps> = ({
 };
 
 export { ReceptionistVisits };
+
+

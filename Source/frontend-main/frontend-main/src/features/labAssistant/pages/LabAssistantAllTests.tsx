@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for LabAssistantAllTests.tsx.
+ * File: frontend-main/frontend-main/src/features/labAssistant/pages/LabAssistantAllTests.tsx
+ */
 import { handleError } from "@/utils";
 import { useEffect, useState } from "react";
 import { LabExaminationSearchRequest } from "@/types";
@@ -40,3 +44,5 @@ const LabAssistantAllTests: React.FC = () => {
 };
 
 export { LabAssistantAllTests };
+
+

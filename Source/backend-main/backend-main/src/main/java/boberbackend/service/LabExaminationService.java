@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines the methods that this service must provide.
+ * File: backend-main/backend-main/src/main/java/boberbackend/service/LabExaminationService.java
+ */
 package boberbackend.service;
 
 import boberbackend.controllers.assistant.CancelLabExaminationReq;
@@ -27,4 +31,6 @@ public interface LabExaminationService {
 
     public List<LabExamination> supervisorEasySearchLabExamination();
 }
+
+
 

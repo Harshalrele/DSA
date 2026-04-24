@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for separator.tsx.
+ * File: frontend-main/frontend-main/src/components/ui/separator.tsx
+ */
 import * as React from "react"
 import * as SeparatorPrimitive from "@radix-ui/react-separator"
 
@@ -27,3 +31,5 @@ const Separator = React.forwardRef<
 Separator.displayName = SeparatorPrimitive.Root.displayName
 
 export { Separator }
+
+

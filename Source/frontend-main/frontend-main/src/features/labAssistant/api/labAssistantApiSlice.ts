@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines API calls from the frontend to the backend.
+ * File: frontend-main/frontend-main/src/features/labAssistant/api/labAssistantApiSlice.ts
+ */
 import { apiSlice } from "@/services/api/apiSlice";
 import { LabExaminationSearchRequest, LaboratoryExamination } from "@/types";
 import {
@@ -54,3 +58,5 @@ export const {
   useLazyGetAssistantExaminationByIdQuery,
   useLazyGetAssistantExaminationsQuery,
 } = labAssistantApiSlice;
+
+

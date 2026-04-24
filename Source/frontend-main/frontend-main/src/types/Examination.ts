@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for Examination.ts.
+ * File: frontend-main/frontend-main/src/types/Examination.ts
+ */
 import { ExaminationType, RightsLevel } from ".";
 
 type Examination = {
@@ -7,3 +11,5 @@ type Examination = {
   rightsLevel: RightsLevel;
 };
 export type { Examination };
+
+

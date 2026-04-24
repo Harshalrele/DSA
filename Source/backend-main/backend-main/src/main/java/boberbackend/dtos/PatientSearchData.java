@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Carries data between backend layers or API responses.
+ * File: backend-main/backend-main/src/main/java/boberbackend/dtos/PatientSearchData.java
+ */
 package boberbackend.dtos;
 
 import lombok.AllArgsConstructor;
@@ -12,4 +16,6 @@ public class PatientSearchData {
     private String lastName;
     private String insuranceId;
 }
+
+
 

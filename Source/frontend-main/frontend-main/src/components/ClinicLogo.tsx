@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for ClinicLogo.tsx.
+ * File: frontend-main/frontend-main/src/components/ClinicLogo.tsx
+ */
 import { cn } from "@/lib/utils";
 import { Stethoscope } from "lucide-react";
 
@@ -19,3 +23,5 @@ const ClinicLogo: React.FC<ClinicLogoProps> = ({ className, ...props }) => {
 };
 
 export { ClinicLogo };
+
+

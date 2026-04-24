@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines the methods that this service must provide.
+ * File: backend-main/backend-main/src/main/java/boberbackend/service/VisitService.java
+ */
 package boberbackend.service;
 
 import boberbackend.controllers.common.BadRequestException;
@@ -26,4 +30,6 @@ public interface VisitService {
 
     Visit setVisitDetails(VisitDetailsReq req) throws BadRequestException;
 }
+
+
 

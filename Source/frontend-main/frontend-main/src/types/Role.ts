@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for Role.ts.
+ * File: frontend-main/frontend-main/src/types/Role.ts
+ */
 const enum Role {
   User,
   Admin,
@@ -9,3 +13,5 @@ const enum Role {
 }
 
 export { Role };
+
+

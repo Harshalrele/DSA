@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for .eslintrc.cjs.
+ * File: frontend-main/frontend-main/.eslintrc.cjs
+ */
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
@@ -16,3 +20,5 @@ module.exports = {
     ],
   },
 }
+
+

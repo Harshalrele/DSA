@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Handles JWT token creation, validation, or filtering.
+ * File: backend-main/backend-main/src/main/java/boberbackend/config/jwt/JwtTokenUtils.java
+ */
 package boberbackend.config.jwt;
 
 import boberbackend.config.user.CustomUserDetails;
@@ -45,4 +49,6 @@ public class JwtTokenUtils {
 
 
 }
+
+
 

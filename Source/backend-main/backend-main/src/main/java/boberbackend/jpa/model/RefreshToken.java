@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains code or settings for RefreshToken.java.
+ * File: backend-main/backend-main/src/main/java/boberbackend/jpa/model/RefreshToken.java
+ */
 package boberbackend.jpa.model;
 
 import boberbackend.enums.JwtTokenTypeEnum;
@@ -28,4 +32,6 @@ public class RefreshToken {
     @JoinColumn(name = "app_user", referencedColumnName = "id", nullable = false)
     private AppUser user;
 }
+
+
 

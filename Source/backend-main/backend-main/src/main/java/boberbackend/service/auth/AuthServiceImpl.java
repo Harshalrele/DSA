@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Contains the main business logic for this service.
+ * File: backend-main/backend-main/src/main/java/boberbackend/service/auth/AuthServiceImpl.java
+ */
 package boberbackend.service.auth;
 
 import boberbackend.config.jwt.JwtTokenGenerator;
@@ -108,4 +112,6 @@ public class AuthServiceImpl implements AuthService {
         return new UsernamePasswordAuthenticationToken(username, password, List.of(authority));
     }
 }
+
+
 

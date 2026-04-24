@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Describes request data sent from the frontend to the backend.
+ * File: backend-main/backend-main/src/main/java/boberbackend/controllers/doctor/CreateLabExaminationReq.java
+ */
 package boberbackend.controllers.doctor;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,4 +16,6 @@ public class CreateLabExaminationReq {
     @JsonProperty("examinationCode")
     private String examinationCode;
 }
+
+
 

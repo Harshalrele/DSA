@@ -1,3 +1,7 @@
+/*
+ * Bober Clinic note: Defines global frontend styles and theme colors.
+ * File: frontend-main/frontend-main/src/index.css
+ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -74,3 +78,5 @@
     @apply bg-background text-foreground antialiased;
   }
 }
+
+
