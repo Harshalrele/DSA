@@ -1,86 +1,60 @@
-# DSA_REPORT_RA1_50_WORKING
+# Bober Clinic
 
-This is a 50% working local version of the clinic project.
+This project is now split into two simple source folders:
 
-## What Works
+- `backend` has the Spring Boot Java backend.
+- `frontend` has the React frontend.
 
-- Backend starts with Java 17.
-- No PostgreSQL is required.
-- Credentials are stored in a local H2 file database at `Source/parrot-backend-main/parrot-backend-main/data`.
-- Login works with preloaded users.
-- New patient and doctor accounts can be created from the Register page.
-- Frontend auth UI has been redesigned.
+## Run the backend
 
-## Start Backend
-
-Open a terminal in:
+Open one terminal:
 
 ```powershell
-Source\parrot-backend-main\parrot-backend-main
+cd "C:\Users\harsh\OneDrive\Desktop\Programming\DSA"
+.\start-backend.bat
 ```
 
-Then run:
-
-```powershell
-.\mvnw.cmd spring-boot:run
-```
-
-Backend URL:
+The backend runs at:
 
 ```text
 http://localhost:8080
 ```
 
-H2 database console:
+## Run the frontend
 
-```text
-http://localhost:8080/h2-console
-```
-
-H2 login:
-
-```text
-JDBC URL: jdbc:h2:file:./data/beaver-local
-User: sa
-Password: leave empty
-```
-
-## Start Frontend
-
-Open a second terminal in:
+Open a second terminal:
 
 ```powershell
-Source\parrot-frontend-main\parrot-frontend-main
+cd "C:\Users\harsh\OneDrive\Desktop\Programming\DSA"
+.\start-frontend.bat
 ```
 
-Then run:
-
-```powershell
-npm install
-npm run dev
-```
-
-Frontend URL:
+The website runs at:
 
 ```text
 http://localhost:3000
 ```
 
-## Test Login
+## What the app does
 
-Preloaded doctor:
+- Create a patient account.
+- Create a doctor account with an expertise field.
+- Doctor expertise is selected from a dropdown.
+- Sign in with the saved email and password.
+- Patients can create appointments with doctors.
+- Patients select the appointment date and time.
+- Patients add only the visit reason.
+- Doctors can see appointed patients and patient lookup.
+- Doctors can add test notes for appointments.
+
+## Where the data is saved
+
+The H2 database file is stored here:
 
 ```text
-doctor1@email.com
-doctor1
+backend\data\bober-clinic.mv.db
 ```
 
-Preloaded patient:
+Do not delete the `backend\data` folder if you want accounts and passwords to stay saved.
 
-```text
-patient1@email.com
-patient1
-```
-
-You can also use the Register page to create a new patient or doctor account.
-
+Generated folders like `target`, `dist`, and `node_modules` are not source code. They may come back when you run the project.
