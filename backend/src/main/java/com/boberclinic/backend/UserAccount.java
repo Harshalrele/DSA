@@ -50,15 +50,18 @@ public class UserAccount {
     // Doctors use this for their area of expertise.
     private String specialization;
 
-    public Long getId() {
+    public Long getId()
+     {
         return id;
     }
 
-    public String getEmail() {
+    public String getEmail() 
+    {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) 
+    {
         this.email = email;
     }
 
