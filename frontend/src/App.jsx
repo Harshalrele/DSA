@@ -21,7 +21,7 @@ const emptyRegisterForm = {
   specialization: ""
 };
 
-// Doctor expertise options shown when creating a doctor account.
+// Doctor expertise options shown when creating a doctor account...
 const specializations = [
   "Cardiology",
   "Dermatology",
