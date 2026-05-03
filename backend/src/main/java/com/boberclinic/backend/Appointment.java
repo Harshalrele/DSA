@@ -5,49 +5,52 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-// This class becomes the appointment table in the H2 database.
+/**
+ * Entity class representing a medical appointment within the clinic system.
+ * This class is mapped to the persistence layer in the H2 database.
+ */
 @Entity
 public class Appointment {
 
-    // This is the automatic appointment ID.
+    // Unique identifier for the appointment, automatically generated.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // The patient email connects the appointment to the logged-in patient.
+    // Email reference for the patient account
     private String patientEmail;
 
-    // The doctor email connects the appointment to the selected doctor.
+    // Email reference for the assigned doctor
     private String doctorEmail;
 
-    // Patient name is saved so the doctor can see who booked the visit.
+    // Full name of the patient for quick UI access
     private String patientName;
 
-    // Patient insurance ID is saved as a simple patient identifier.
+    // Patient's medical insurance identifier
     private String patientInsuranceId;
 
-    // Doctor name is saved so it is easy to show in the frontend.
+    // Full name of the assigned medical professional
     private String doctorName;
 
-    // Doctor expertise is saved so the appointment is easy to read.
+    // Medical area or expertise of the doctor
     private String doctorSpecialization;
 
-    // Date and time are stored as simple text for this demo.
+    // Scheduled date and time (stored as String for simplicity)
     private String dateTime;
 
-    // Visit reason stores the patient's short visit note.
+    // Patient's description regarding the visit motive
     private String visitReason;
 
-    // Test notes store simple test information for the visit.
+    // General clinical notes related to the visit
     private String testNotes;
 
-    // Lab tests selected by the doctor, saved as simple text.
+    // Requested laboratory tests or examinations
     private String labTests;
 
-    // Diagnosis written by the doctor.
+    // Final clinical diagnosis provided by the doctor
     private String diagnosis;
 
-    // Appointment status, for example Scheduled or Completed.
+    // Current workflow status (e.g., "Scheduled", "Completed")
     private String status;
 
     public Long getId() {

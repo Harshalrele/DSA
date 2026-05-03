@@ -5,15 +5,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-// This repository gives simple database commands for users.
+// Interface for handling user data operations in the database
 public interface UserRepository extends JpaRepository<UserAccount, Long> {
 
-    // Finds one account by email for login.
+    // Retrieve a single user record based on their email address
     Optional<UserAccount> findByEmail(String email);
 
-    // Checks if an email is already used during registration.
+    // Verify if a specific email address is already registered
     boolean existsByEmail(String email);
 
-    // Gets all users with a selected role, for example all doctors.
+    // Filter and return a list of users by their account role
     List<UserAccount> findByRole(Role role);
 }

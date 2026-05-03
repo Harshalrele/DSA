@@ -8,60 +8,59 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-// This class becomes the user_account table in the H2 database.
+// Database entity for user accounts
 @Entity
 public class UserAccount {
 
-    // This is the automatic database ID.
+    // Primary key with auto-increment
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Email is unique because it is used for login.
+    // Unique email address used for authentication
     @Column(unique = true, nullable = false)
     private String email;
 
-    // Password is plain text to keep the demo easy to explain.
+    // User password stored in plain text
     @Column(nullable = false)
     private String password;
 
-    // First name shown in the frontend.
+    // User's first name
     private String firstName;
 
-    // Last name shown in the frontend.
+    // User's last name
     private String lastName;
 
-    // National ID is kept as a simple text field.
+    // Government or National ID number
     private String nationalId;
 
-    // Sex is kept as a simple text field.
+    // Biological sex of the user
     private String sex;
 
-    // Role decides if the account is a patient or doctor.
+    // Defines if the user is a Doctor or a Patient
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    // Patients use insurance ID.
+    // Identification for medical insurance (Patients only)
     private String insuranceId;
 
-    // Doctors use NPWZ ID.
+    // Professional license number (Doctors only)
     private String npwzId;
 
-    // Doctors use this for their area of expertise.
+    // Medical area of expertise (Doctors only)
     private String specialization;
 
-    public Long getId()
-     {
+    // --- GETTERS AND SETTERS ---
+
+    public Long getId() {
         return id;
     }
 
-    public String getEmail() 
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) 
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
 

@@ -4,12 +4,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-// This repository gives simple database commands for appointments.
+// Interface for database operations related to Appointments
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-    // Finds all appointments created by one patient email.
+    // Get all appointments for a specific patient using their email
     List<Appointment> findByPatientEmail(String patientEmail);
 
-    // Finds all appointments booked with one doctor email.
+    // Get all appointments for a specific doctor using their email
     List<Appointment> findByDoctorEmail(String doctorEmail);
 }
