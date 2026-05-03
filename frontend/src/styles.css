@@ -184,7 +184,7 @@ header {
   gap: 24px;
 }
 
-/* This lets one panel use the full dashboard width. */
+/* This lets one panel use the full Dashboard width. */
 .full-width {
   grid-column: 1 / -1;
 }
@@ -197,7 +197,7 @@ header {
   padding: 14px 0;
 }
 
-/* This makes the app work on small screens. */
+/* This makes the app work on small screens . */
 @media (max-width: 850px) {
   .screen,
   .dashboard-grid,
@@ -205,3 +205,4 @@ header {
     grid-template-columns: 1fr;
   }
 }
+

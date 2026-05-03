@@ -1,6 +1,6 @@
 # Bober Clinic
 
-This project is now split into two simple source folders:
+This project is now split into two simple source folders :
 
 - `backend` has the Spring Boot Java backend.
 - `frontend` has the React frontend.
@@ -58,3 +58,4 @@ backend\data\bober-clinic.mv.db
 Do not delete the `backend\data` folder if you want accounts and passwords to stay saved.
 
 Generated folders like `target`, `dist`, and `node_modules` are not source code. They may come back when you run the project.
+
