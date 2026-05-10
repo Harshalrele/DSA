@@ -1,9 +1,9 @@
-/* This sets the default page style. */
+/* Page-wide sizing rule. */
 * {
   box-sizing: border-box;
 }
 
-/* This styles the whole browser body. */
+/* Dark background and main font. */
 body {
   margin: 0;
   background: #050b18;
@@ -11,7 +11,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* This lays out the login and register pages. */
+/* Login and register page layout. */
 .screen {
   min-height: 100vh;
   display: grid;
@@ -21,7 +21,7 @@ body {
   padding: 48px;
 }
 
-/* This styles the Bober Clinic information card. */
+/* Shared card style. */
 .brand-card,
 .form-card,
 .panel {
@@ -32,13 +32,13 @@ body {
   padding: 32px;
 }
 
-/* This styles the main title. */
+/* Main title. */
 h1 {
   margin: 20px 0 8px;
   font-size: 48px;
 }
 
-/* This styles section titles. */
+/* Section titles. */
 h2 {
   margin-top: 0;
   display: flex;
@@ -46,12 +46,12 @@ h2 {
   gap: 10px;
 }
 
-/* This styles normal text. */
+/* Normal paragraph text. */
 p {
   color: #cbd5e1;
 }
 
-/* This lays out the team names. */
+/* Team name layout. */
 .team {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -59,31 +59,31 @@ p {
   margin-top: 32px;
 }
 
-/* This makes a wider register card. */
+/* Wider card for the register form. */
 .wide {
   max-width: 760px;
 }
 
-/* This styles every form. */
+/* Form spacing. */
 form {
   display: grid;
   gap: 14px;
 }
 
-/* This creates two columns inside the register form. */
+/* Two-column register form. */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
 }
 
-/* This styles labels above inputs. */
+/* Input labels. */
 label {
   font-weight: 700;
   color: #e2e8f0;
 }
 
-/* This styles text boxes and dropdowns. */
+/* Inputs, dropdowns, and text areas. */
 input,
 select,
 textarea {
@@ -97,20 +97,20 @@ textarea {
   font-size: 15px;
 }
 
-/* This makes larger doctor note boxes comfortable to type in. */
+/* Larger text area for longer notes. */
 textarea {
   min-height: 82px;
   resize: vertical;
 }
 
-/* This lays out lab test checkboxes. */
+/* Checkbox grid for physical tests. */
 .checkbox-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
-/* This styles one checkbox line. */
+/* One checkbox row. */
 .checkbox-row {
   align-items: center;
   border: 1px solid #334155;
@@ -120,12 +120,12 @@ textarea {
   padding: 10px;
 }
 
-/* This keeps checkbox inputs small instead of full width. */
+/* Keep checkbox inputs compact. */
 .checkbox-row input {
   width: auto;
 }
 
-/* This styles the main buttons. */
+/* Main button style. */
 button {
   border: 0;
   border-radius: 8px;
@@ -141,7 +141,7 @@ button {
   padding: 13px 18px;
 }
 
-/* This styles the second button on login/register pages. */
+/* Secondary button style. */
 .secondary {
   width: 100%;
   margin-top: 12px;
@@ -149,7 +149,7 @@ button {
   border: 1px solid #334155;
 }
 
-/* This styles success and error messages. */
+/* Success and error message box. */
 .message {
   border: 1px solid #2563eb;
   border-radius: 8px;
@@ -158,13 +158,13 @@ button {
   padding: 12px;
 }
 
-/* This styles the dashboard page. */
+/* Dashboard page spacing. */
 .dashboard {
   min-height: 100vh;
   padding: 28px;
 }
 
-/* This styles the dashboard header. */
+/* Dashboard header. */
 header {
   display: flex;
   justify-content: space-between;
@@ -172,24 +172,32 @@ header {
   margin-bottom: 28px;
 }
 
-/* This styles the logout button. */
+/* Logout button. */
 .logout {
   background: #1e293b;
 }
 
-/* This lays out dashboard panels. */
+/* Dashboard panel grid. */
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
 }
 
-/* This lets one panel use the full Dashboard width. */
+/* Search and filter controls. */
+.filters {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+/* Full-width panel. */
 .full-width {
   grid-column: 1 / -1;
 }
 
-/* This styles each appointment row. */
+/* Appointment row. */
 .appointment {
   display: grid;
   gap: 6px;
@@ -197,11 +205,22 @@ header {
   padding: 14px 0;
 }
 
-/* This makes the app work on small screens . */
+/* More room for multi-select dropdowns. */
+select[multiple] {
+  min-height: 140px;
+}
+
+/* Delete button. */
+.danger {
+  background: #b91c1c;
+}
+
+/* Mobile layout. */
 @media (max-width: 850px) {
   .screen,
   .dashboard-grid,
-  .grid {
+  .grid,
+  .filters {
     grid-template-columns: 1fr;
   }
 }

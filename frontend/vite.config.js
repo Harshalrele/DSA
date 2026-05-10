@@ -1,8 +1,8 @@
-// This file configures Vite, the frontend development server.
+// Vite setup for the React frontend.
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
-// Vite runs the React app on localhost:3000.
+// The frontend runs on localhost:3000.
 export default defineConfig({
   plugins: [react()],
   server: {

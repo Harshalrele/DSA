@@ -1,13 +1,51 @@
-// Icons used in the buttons and headings.
+// Icons used in the buttons and page headings.
 import { CalendarPlus, LogOut, Stethoscope, UserPlus } from "lucide-react";
 
-// React hooks used to store page state and load data.
-import { useEffect, useState } from "react";
+// React tools for page state, loading data, and filtering lists.
+import { useEffect, useMemo, useState } from "react";
 
-// This is the backend URL.
+// Backend API address.
 const API_URL = "http://localhost:8080/api";
 
-// This is the empty register form.
+// Options shown when a doctor account is created.
+const specializations = [
+  "Cardiology",
+  "Dermatology",
+  "Family medicine",
+  "Neurology",
+  "Orthopedics",
+  "Pediatrics"
+];
+
+// Standard lab tests for a consultation.
+const baseLabTests = [
+  "Blood test",
+  "Urine test",
+  "X-ray",
+  "MRI",
+  "ECG",
+  "Ultrasound",
+  "CT scan",
+  "Glucose test",
+  "Cholesterol test"
+];
+
+// Extra choices for specialist doctors.
+const specialistTests = ["USG", "Specialist examination", "Doppler scan", "Echo test"];
+
+// Physical tests shown as checkboxes.
+const physicalTests = [
+  "Blood pressure",
+  "Temperature",
+  "Pulse",
+  "Weight",
+  "Height",
+  "Lung check",
+  "Abdomen check",
+  "Reflex check"
+];
+
+// Empty values for the register form.
 const emptyRegisterForm = {
   email: "",
   password: "",
@@ -21,246 +59,236 @@ const emptyRegisterForm = {
   specialization: ""
 };
 
-// Doctor expertise options shown when creating a doctor account...
-const specializations = [
-  "Cardiology",
-  "Dermatology",
-  "Family medicine",
-  "Neurology",
-  "Orthopedics",
-  "Pediatrics"
-];
+// Default dashboard filters.
+const defaultFilters = {
+  search: "",
+  date: "",
+  status: "",
+  scope: "My visits"
+};
 
-// Lab test options the doctor can choose for an appointment.
-const labTestOptions = [
-  "Blood test",
-  "Urine test",
-  "X-ray",
-  "MRI",
-  "ECG",
-  "Ultrasound"
-];
-
-// This is the main frontend component.
 function App() {
-  // page decides if we show login, register, or dashboard.
+  // Current page: login, register, or dashboard.
   const [page, setPage] = useState("login");
 
-  // user stores the logged-in account.
+  // Signed-in user from the backend.
   const [user, setUser] = useState(null);
 
-  // message stores success or error text.
+  // Login token for protected backend requests.
+  const [authToken, setAuthToken] = useState("");
+
+  // Success or error message shown on the page.
   const [message, setMessage] = useState("");
 
-  // loginForm stores the login input values.
+  // Sign-in form fields.
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
 
-  // registerForm stores the create account input values.
+  // Create-account form fields.
   const [registerForm, setRegisterForm] = useState(emptyRegisterForm);
 
-  // doctors stores all doctor accounts from the backend.
+  // Data loaded from the backend.
   const [doctors, setDoctors] = useState([]);
-
-  // appointments stores appointments for the logged-in patient.
-  const [appointments, setAppointments] = useState([]);
-
-  // patients stores patient accounts for the doctor dashboard.
   const [patients, setPatients] = useState([]);
+  const [appointments, setAppointments] = useState([]);
+  const [availability, setAvailability] = useState([]);
 
-  // doctorForms stores appointment changes before the doctor saves them.
+  // Doctor consultation forms, grouped by appointment id.
   const [doctorForms, setDoctorForms] = useState({});
 
-  // appointmentForm stores the selected doctor and date.
+  // Dashboard filter fields.
+  const [filters, setFilters] = useState(defaultFilters);
+
+  // Doctor availability form fields.
+  const [availabilityForm, setAvailabilityForm] = useState({
+    date: "",
+    time: ""
+  });
+
+  // Patient booking form fields.
   const [appointmentForm, setAppointmentForm] = useState({
-    doctorEmail: "",
-    appointmentDate: "",
-    appointmentTime: "",
+    slot: "",
     visitReason: ""
   });
 
-  // This runs when the logged-in user changes.
+  // After login, load the dashboard data for that role.
   useEffect(() => {
-    // Only load dashboard data after login.
-    if (user) {
+    if (user && authToken) {
       loadDoctors();
-      loadAppointments(user.email);
-      if (user.role === "DOCTOR") {
+      loadAvailability();
+      loadAppointments();
+      if (user.role !== "PATIENT") {
         loadPatients();
       }
     }
-  }, [user]);
+  }, [user, authToken]);
 
-  // This helper sends JSON to the backend and reads JSON back.
-  async function sendJson(path, body) {
-    // fetch makes the HTTP request to Spring Boot.
+  // Shared fetch helper. It adds the login token after sign-in.
+  async function api(path, options = {}) {
+    const headers = { ...(options.headers || {}) };
+    if (authToken) {
+      headers.Authorization = `Bearer ${authToken}`;
+    }
+
     const response = await fetch(`${API_URL}${path}`, {
+      ...options,
+      headers
+    });
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(path === "/appointments" && response.status === 400
+        ? "This time slot is already occupied."
+        : text.includes("This time slot is already occupied")
+        ? "This time slot is already occupied."
+        : "Request failed");
+    }
+    if (response.status === 204) {
+      return null;
+    }
+    return response.json();
+  }
+
+  // Sends JSON to the backend.
+  async function sendJson(path, body) {
+    return api(path, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body)
     });
-
-    // If the backend returns an error, show it on the page.
-    if (!response.ok) {
-      const text = await response.text();
-      throw new Error(text || "Request failed");
-    }
-
-    // Return the backend JSON response.
-    return response.json();
   }
 
-  // This loads all doctors from the backend.
+  // Loads doctors for booking and admin views.
   async function loadDoctors() {
-    // GET /api/doctors returns doctor accounts.
-    const response = await fetch(`${API_URL}/doctors`);
-    // Save the doctor list in React state.
-    setDoctors(await response.json());
+    setDoctors(await api("/doctors"));
   }
 
-  // This loads all patients for the doctor dashboard.
+  // Loads patients only for staff users.
   async function loadPatients() {
-    // GET /api/patients returns patient accounts.
-    const response = await fetch(`${API_URL}/patients`);
-    // Save the patient list in React state.
-    setPatients(await response.json());
+    setPatients(await api("/patients"));
   }
 
-  // This loads appointments for one patient.
-  async function loadAppointments(patientEmail) {
-    // Doctors load appointments by doctor email, patients load by patient email.
-    const query =
-      user?.role === "DOCTOR"
-        ? `doctorEmail=${encodeURIComponent(patientEmail)}`
-        : `patientEmail=${encodeURIComponent(patientEmail)}`;
+  // Loads open doctor appointment times.
+  async function loadAvailability() {
+    setAvailability(await api("/availability?onlyOpen=true"));
+  }
 
-    // GET /api/appointments returns appointments for the current user.
-    const response = await fetch(`${API_URL}/appointments?${query}`);
-    // Read appointment data from the backend.
-    const loadedAppointments = await response.json();
-    // Save the appointment list in React state.
+  // Loads only the appointments allowed for the logged-in role.
+  async function loadAppointments() {
+    const loadedAppointments = await api("/appointments");
     setAppointments(loadedAppointments);
-    // Fill doctor edit boxes with saved backend values.
-    setDoctorForms(
-      loadedAppointments.reduce((forms, appointment) => {
-        forms[appointment.id] = {
-          status: appointment.status || "Scheduled",
-          diagnosis: appointment.diagnosis || "",
-          labTests: appointment.labTests || "",
-          testNotes: appointment.testNotes || ""
-        };
-        return forms;
-      }, {})
-    );
+    setDoctorForms(loadedAppointments.reduce((forms, appointment) => {
+      forms[appointment.id] = {
+        status: appointment.status || "Scheduled",
+        labTests: appointment.labTests || "",
+        physicalTests: appointment.physicalTests || "",
+        diagnosis: appointment.diagnosis || "",
+        resultOfInterview: appointment.resultOfInterview || "",
+        notes: appointment.notes || ""
+      };
+      return forms;
+    }, {}));
   }
 
-  // This handles the login form.
+  // Signs in and opens the dashboard.
   async function handleLogin(event) {
-    // Stop the browser from refreshing the page.
     event.preventDefault();
     try {
-      // Send email and password to the backend.
-      const loggedInUser = await sendJson("/login", loginForm);
-      // Store the logged-in user.
-      setUser(loggedInUser);
-      // Move to the dashboard.
+      const loginResult = await sendJson("/login", loginForm);
+      setAuthToken(loginResult.token);
+      setUser(loginResult.user);
       setPage("dashboard");
-      // Clear old messages.
       setMessage("");
+      setFilters(defaultFilters);
     } catch {
-      // Show a simple login error.
       setMessage("Bad credentials. Check email and password.");
     }
   }
 
-  // This handles the create account form.
+  // Creates a patient, doctor, or receptionist/admin account.
   async function handleRegister(event) {
-    // Stop the browser from refreshing the page.
     event.preventDefault();
     try {
-      // Send the new account to the backend.
       await sendJson("/register", registerForm);
-      // Return to login after creating the account.
-      setPage("login");
-      // Reset the register form.
       setRegisterForm(emptyRegisterForm);
-      // Tell the user what happened.
+      setPage("login");
       setMessage("Account created. You can sign in now.");
     } catch {
-      // Show a simple registration error.
       setMessage("Could not create account. Use a new email.");
     }
   }
 
-  // This handles the appointment form.
-  async function handleAppointment(event) {
-    // Stop the browser from refreshing the page.
+  // Adds one open appointment time for a doctor.
+  async function addAvailability(event) {
     event.preventDefault();
     try {
-      // Send appointment details to the backend.
-      await sendJson("/appointments", {
-        patientEmail: user.email,
-        doctorEmail: appointmentForm.doctorEmail,
-        dateTime: `${appointmentForm.appointmentDate} ${appointmentForm.appointmentTime}`,
-        visitReason: appointmentForm.visitReason
+      await sendJson("/availability", {
+        doctorEmail: user.email,
+        dateTime: `${availabilityForm.date} ${availabilityForm.time}`
       });
-      // Clear the appointment form.
-      setAppointmentForm({
-        doctorEmail: "",
-        appointmentDate: "",
-        appointmentTime: "",
-        visitReason: ""
-      });
-      // Reload appointments from the backend.
-      await loadAppointments(user.email);
-      // Show success text.
-      setMessage("Appointment created.");
+      setAvailabilityForm({ date: "", time: "" });
+      await loadAvailability();
+      setMessage("Availability added.");
     } catch {
-      // Show a simple appointment error.
-      setMessage("Could not create appointment.");
+      setMessage("Could not add availability.");
     }
   }
 
-  // This lets a doctor save appointment changes.
+  // Books one open doctor time slot for the patient.
+  async function createAppointment(event) {
+    event.preventDefault();
+    const selectedSlot = availability.find((slot) => String(slot.id) === appointmentForm.slot);
+    if (!selectedSlot) {
+      setMessage("Choose an available time slot.");
+      return;
+    }
+    try {
+      await sendJson("/appointments", {
+        patientEmail: user.email,
+        doctorEmail: selectedSlot.doctorEmail,
+        dateTime: selectedSlot.dateTime,
+        visitReason: appointmentForm.visitReason
+      });
+      setAppointmentForm({ slot: "", visitReason: "" });
+      await loadAvailability();
+      await loadAppointments();
+      setMessage("Appointment created.");
+    } catch (error) {
+      setMessage(error.message);
+    }
+  }
+
+  // Saves doctor consultation changes.
   async function saveDoctorUpdate(appointmentId) {
     try {
-      // Send the doctor's selected status, lab tests, diagnosis, and notes to the backend.
       await sendJson(`/appointments/${appointmentId}/doctor-update`, doctorForms[appointmentId]);
-      // Reload the doctor's appointments after saving.
-      await loadAppointments(user.email);
-      // Show success text.
+      await loadAppointments();
       setMessage("Appointment updated.");
     } catch {
-      // Show a simple save error.
       setMessage("Could not update appointment.");
     }
   }
 
-  // This logs the user out.
+  // Deletes an appointment for the receptionist/admin.
+  async function deleteAppointment(appointmentId) {
+    try {
+      await api(`/appointments/${appointmentId}`, { method: "DELETE" });
+      await loadAppointments();
+      await loadAvailability();
+      setMessage("Appointment deleted.");
+    } catch {
+      setMessage("Could not delete appointment.");
+    }
+  }
+
+  // Logs out and returns to the sign-in page.
   function logout() {
-    // Remove the logged-in user.
     setUser(null);
-    // Go back to login.
+    setAuthToken("");
     setPage("login");
-    // Clear messages.
     setMessage("");
+    setFilters(defaultFilters);
   }
 
-  // This updates the login form when the user types.
-  function updateLogin(field, value) {
-    setLoginForm({ ...loginForm, [field]: value });
-  }
-
-  // This updates the register form when the user types.
-  function updateRegister(field, value) {
-    setRegisterForm({ ...registerForm, [field]: value });
-  }
-
-  // This updates the appointment form when the user types.
-  function updateAppointment(field, value) {
-    setAppointmentForm({ ...appointmentForm, [field]: value });
-  }
-
-  // This updates one doctor's appointment-edit form.
+  // Updates one doctor form field.
   function updateDoctorForm(appointmentId, field, value) {
     setDoctorForms({
       ...doctorForms,
@@ -271,97 +299,128 @@ function App() {
     });
   }
 
-  // This turns a lab test checkbox on or off.
-  function toggleLabTest(appointmentId, labTest) {
-    const currentValue = doctorForms[appointmentId]?.labTests || "";
-    const selectedTests = currentValue ? currentValue.split(", ") : [];
-    const nextTests = selectedTests.includes(labTest)
-      ? selectedTests.filter((test) => test !== labTest)
-      : [...selectedTests, labTest];
-    updateDoctorForm(appointmentId, "labTests", nextTests.join(", "));
+  // Adds or removes one checkbox value from a text list.
+  function toggleListValue(appointmentId, field, value) {
+    const currentValue = doctorForms[appointmentId]?.[field] || "";
+    const selectedValues = currentValue ? currentValue.split(", ") : [];
+    const nextValues = selectedValues.includes(value)
+      ? selectedValues.filter((item) => item !== value)
+      : [...selectedValues, value];
+    updateDoctorForm(appointmentId, field, nextValues.join(", "));
   }
 
-  // This shows the login page.
+  // Saves selected lab tests from the multi-select dropdown.
+  function updateMultiSelect(appointmentId, field, selectedOptions) {
+    const values = Array.from(selectedOptions).map((option) => option.value);
+    updateDoctorForm(appointmentId, field, values.join(", "));
+  }
+
+  // Dashboard appointment filtering.
+  const shownAppointments = useMemo(() => {
+    const today = new Date().toISOString().slice(0, 10);
+    return appointments.filter((appointment) => {
+      const text = `${appointment.patientName} ${appointment.doctorName}`.toLowerCase();
+      const matchesSearch = user?.role === "PATIENT" || text.includes(filters.search.toLowerCase());
+      const matchesDate = !filters.date || appointment.dateTime.startsWith(filters.date);
+      const matchesStatus = !filters.status || appointment.status === filters.status;
+      const matchesScope =
+        filters.scope === "All appointments" ||
+        filters.scope === "Today schedule" && appointment.dateTime.startsWith(today) ||
+        filters.scope === "My visits";
+      return matchesSearch && matchesDate && matchesStatus && matchesScope;
+    });
+  }, [appointments, filters, user?.role]);
+
+  // Staff patient search.
+  const visiblePatients = useMemo(() => {
+    const search = filters.search.toLowerCase();
+    return patients.filter((patient) =>
+      `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(search)
+    );
+  }, [patients, filters.search]);
+
+  // Specialists get extra lab test options.
+  const currentLabTests = user?.role === "DOCTOR" && user.specialization !== "Family medicine"
+    ? [...baseLabTests, ...specialistTests]
+    : baseLabTests;
+
+  // Sign-in page.
   if (page === "login") {
     return (
       <main className="screen">
         <section className="brand-card">
           <Stethoscope size={48} />
           <h1>Bober Clinic</h1>
-          <p>Simple clinic management system</p>
+          <p>Clinic management system</p>
           <div className="team">
             <strong>Done by</strong>
             <span>Harshal Rele</span>
             <span>Ruth Zhou</span>
-            <span> Kabarega Jabo Prince</span>
+            <span>Kabarega Jabo Prince</span>
             <span>Solomon Orviri</span>
             <span>Navneethraj Vadakkuvedu Kabirdas</span>
             <span>Hugo Lapica</span>
+            <span>Mohammed Alshanteer</span>
           </div>
         </section>
-
         <section className="form-card">
           <h2>Sign in</h2>
           {message && <p className="message">{message}</p>}
           <form onSubmit={handleLogin}>
             <label>Email</label>
-            <input value={loginForm.email} onChange={(e) => updateLogin("email", e.target.value)} />
+            <input value={loginForm.email} onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })} />
             <label>Password</label>
-            <input type="password" value={loginForm.password} onChange={(e) => updateLogin("password", e.target.value)} />
+            <input type="password" value={loginForm.password} onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })} />
             <button type="submit">Sign in</button>
           </form>
           <button className="secondary" onClick={() => setPage("register")}>
             <UserPlus size={18} />
-            Create patient or doctor account
+            Create account
           </button>
         </section>
       </main>
     );
   }
 
-  // This shows the register page.
+  // Create-account page.
   if (page === "register") {
     return (
       <main className="screen">
         <section className="brand-card">
           <UserPlus size={48} />
           <h1>Create account</h1>
-          <p>Create a patient or doctor account for Bober Clinic.</p>
+          <p>Create a patient, doctor, or receptionist/admin account.</p>
         </section>
-
         <section className="form-card wide">
           <h2>New account</h2>
-          {message && <p className="message">{message}</p>}
           <form onSubmit={handleRegister}>
             <div className="grid">
-              <input placeholder="First name" value={registerForm.firstName} onChange={(e) => updateRegister("firstName", e.target.value)} />
-              <input placeholder="Last name" value={registerForm.lastName} onChange={(e) => updateRegister("lastName", e.target.value)} />
-              <input placeholder="Email" value={registerForm.email} onChange={(e) => updateRegister("email", e.target.value)} />
-              <input placeholder="Password" type="password" value={registerForm.password} onChange={(e) => updateRegister("password", e.target.value)} />
-              <input placeholder="National ID" value={registerForm.nationalId} onChange={(e) => updateRegister("nationalId", e.target.value)} />
-              <select value={registerForm.sex} onChange={(e) => updateRegister("sex", e.target.value)}>
+              <input placeholder="First name" value={registerForm.firstName} onChange={(e) => setRegisterForm({ ...registerForm, firstName: e.target.value })} />
+              <input placeholder="Last name" value={registerForm.lastName} onChange={(e) => setRegisterForm({ ...registerForm, lastName: e.target.value })} />
+              <input placeholder="Email" value={registerForm.email} onChange={(e) => setRegisterForm({ ...registerForm, email: e.target.value })} />
+              <input placeholder="Password" type="password" value={registerForm.password} onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })} />
+              <input placeholder="National ID" value={registerForm.nationalId} onChange={(e) => setRegisterForm({ ...registerForm, nationalId: e.target.value })} />
+              <select value={registerForm.sex} onChange={(e) => setRegisterForm({ ...registerForm, sex: e.target.value })}>
                 <option>Female</option>
                 <option>Male</option>
                 <option>Other</option>
               </select>
-              <select value={registerForm.role} onChange={(e) => updateRegister("role", e.target.value)}>
+              <select value={registerForm.role} onChange={(e) => setRegisterForm({ ...registerForm, role: e.target.value })}>
                 <option value="PATIENT">Patient</option>
                 <option value="DOCTOR">Doctor</option>
+                <option value="RECEPTIONIST_ADMIN">Receptionist/Admin</option>
               </select>
-              {registerForm.role === "PATIENT" ? (
-                <input placeholder="Insurance ID" value={registerForm.insuranceId} onChange={(e) => updateRegister("insuranceId", e.target.value)} />
-              ) : (
-                <input placeholder="NPWZ ID" value={registerForm.npwzId} onChange={(e) => updateRegister("npwzId", e.target.value)} />
+              {registerForm.role === "PATIENT" && (
+                <input placeholder="Insurance ID" value={registerForm.insuranceId} onChange={(e) => setRegisterForm({ ...registerForm, insuranceId: e.target.value })} />
+              )}
+              {registerForm.role === "DOCTOR" && (
+                <input placeholder="NPWZ ID" value={registerForm.npwzId} onChange={(e) => setRegisterForm({ ...registerForm, npwzId: e.target.value })} />
               )}
             </div>
             {registerForm.role === "DOCTOR" && (
-              <select value={registerForm.specialization} onChange={(e) => updateRegister("specialization", e.target.value)}>
+              <select value={registerForm.specialization} onChange={(e) => setRegisterForm({ ...registerForm, specialization: e.target.value })}>
                 <option value="">Choose specialization</option>
-                {specializations.map((specialization) => (
-                  <option key={specialization} value={specialization}>
-                    {specialization}
-                  </option>
-                ))}
+                {specializations.map((item) => <option key={item} value={item}>{item}</option>)}
               </select>
             )}
             <button type="submit">Create account</button>
@@ -372,7 +431,7 @@ function App() {
     );
   }
 
-  // This shows the dashboard after login.
+  // Dashboard page after login.
   return (
     <main className="dashboard">
       <header>
@@ -380,123 +439,152 @@ function App() {
           <h1>Bober Clinic</h1>
           <p>{user.firstName} {user.lastName} - {user.role}</p>
         </div>
-        <button className="logout" onClick={logout}>
-          <LogOut size={18} />
-          Logout
-        </button>
+        <button className="logout" onClick={logout}><LogOut size={18} />Logout</button>
       </header>
 
       {message && <p className="message">{message}</p>}
 
-      {user.role === "PATIENT" ? (
+      <section className="filters">
+        {user.role !== "PATIENT" && (
+          <input placeholder="Search patient by first or last name" value={filters.search} onChange={(e) => setFilters({ ...filters, search: e.target.value })} />
+        )}
+        <input type="date" value={filters.date} onChange={(e) => setFilters({ ...filters, date: e.target.value })} />
+        <select value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })}>
+          <option value="">All statuses</option>
+          <option>Scheduled</option>
+          <option>Consultation</option>
+          <option>Completed</option>
+        </select>
+        {user.role !== "PATIENT" && (
+          <select value={filters.scope} onChange={(e) => setFilters({ ...filters, scope: e.target.value })}>
+            <option>My visits</option>
+            <option>Today schedule</option>
+            <option>All appointments</option>
+          </select>
+        )}
+      </section>
+
+      {/* Patient dashboard: booking and own appointments only. */}
+      {user.role === "PATIENT" && (
         <section className="dashboard-grid">
           <div className="panel">
-            <h2><CalendarPlus size={22} /> Create appointment</h2>
-            <form onSubmit={handleAppointment}>
-              <label>Doctor</label>
-              <select value={appointmentForm.doctorEmail} onChange={(e) => updateAppointment("doctorEmail", e.target.value)}>
-                <option value="">Choose a doctor</option>
-                {doctors.map((doctor) => (
-                  <option key={doctor.id} value={doctor.email}>
-                    Dr. {doctor.firstName} {doctor.lastName} - {doctor.specialization}
+            <h2><CalendarPlus size={22} /> Book from doctor availability</h2>
+            <form onSubmit={createAppointment}>
+              <label>Available time</label>
+              <select value={appointmentForm.slot} onChange={(e) => setAppointmentForm({ ...appointmentForm, slot: e.target.value })}>
+                <option value="">Choose available doctor time</option>
+                {availability.map((slot) => (
+                  <option key={slot.id} value={slot.id}>
+                    Dr. {slot.doctorName} - {slot.doctorSpecialization} - {slot.dateTime}
                   </option>
                 ))}
               </select>
-              <label>Date</label>
-              <input type="date" value={appointmentForm.appointmentDate} onChange={(e) => updateAppointment("appointmentDate", e.target.value)} />
-              <label>Time</label>
-              <input type="time" value={appointmentForm.appointmentTime} onChange={(e) => updateAppointment("appointmentTime", e.target.value)} />
-              <label>Visit reason</label>
-              <input placeholder="Example: fever and headache" value={appointmentForm.visitReason} onChange={(e) => updateAppointment("visitReason", e.target.value)} />
+              <label>Result of Interview / Patient Description</label>
+              <textarea placeholder="Describe symptoms and illness" value={appointmentForm.visitReason} onChange={(e) => setAppointmentForm({ ...appointmentForm, visitReason: e.target.value })} />
               <button type="submit">Create appointment</button>
             </form>
           </div>
+          <AppointmentList appointments={shownAppointments} patientView />
+        </section>
+      )}
 
+      {/* Doctor dashboard: availability and assigned consultations. */}
+      {user.role === "DOCTOR" && (
+        <section className="dashboard-grid">
           <div className="panel">
-            <h2>Your appointments</h2>
-            {appointments.length === 0 && <p>No appointments yet.</p>}
-            {appointments.map((appointment) => (
-              <div className="appointment" key={appointment.id}>
-                <strong>Dr. {appointment.doctorName}</strong>
-                <span>Specialization: {appointment.doctorSpecialization}</span>
-                <span>Date and time: {appointment.dateTime}</span>
-                <span>Reason: {appointment.visitReason || "Not added"}</span>
-                <span>Status: {appointment.status || "Scheduled"}</span>
-                <span>Lab tests: {appointment.labTests || "Not added yet"}</span>
-                <span>Diagnosis: {appointment.diagnosis || "Not added yet"}</span>
-                <span>Doctor notes: {appointment.testNotes || "Not added yet"}</span>
+            <h2>Add Availability Table Row</h2>
+            <form onSubmit={addAvailability}>
+              <label>Date</label>
+              <input type="date" value={availabilityForm.date} onChange={(e) => setAvailabilityForm({ ...availabilityForm, date: e.target.value })} />
+              <label>Start time</label>
+              <input type="time" value={availabilityForm.time} onChange={(e) => setAvailabilityForm({ ...availabilityForm, time: e.target.value })} />
+              <button type="submit">Add available time</button>
+            </form>
+          </div>
+          <div className="panel">
+            <h2>My Availability</h2>
+            {availability.filter((slot) => slot.doctorEmail === user.email).map((slot) => (
+              <div className="appointment" key={slot.id}>
+                <strong>{slot.dateTime}</strong>
+                <span>{slot.booked ? "Booked" : "Open"}</span>
               </div>
             ))}
           </div>
-        </section>
-      ) : (
-        <section className="dashboard-grid">
-          <div className="panel">
-            <h2>Doctor profile</h2>
-            <p><strong>Expertise:</strong> {user.specialization}</p>
-            <p><strong>NPWZ ID:</strong> {user.npwzId}</p>
-            <p>Patients can choose this doctor when creating an appointment.</p>
-          </div>
-
-          <div className="panel">
-            <h2>Appointed patients</h2>
-            {appointments.length === 0 && <p>No patients booked yet.</p>}
-            {appointments.map((appointment) => (
+          <div className="panel full-width">
+            <h2>My Visits / Consultation</h2>
+            {shownAppointments.map((appointment) => (
               <div className="appointment" key={appointment.id}>
                 <strong>{appointment.patientName}</strong>
                 <span>Insurance ID: {appointment.patientInsuranceId}</span>
                 <span>Date: {appointment.dateTime}</span>
-                <span>Reason: {appointment.visitReason || "Not added"}</span>
+                <span>Patient description: {appointment.visitReason}</span>
                 <label>Status</label>
-                <select
-                  value={doctorForms[appointment.id]?.status || "Scheduled"}
-                  onChange={(e) => updateDoctorForm(appointment.id, "status", e.target.value)}
-                >
+                <select value={doctorForms[appointment.id]?.status || "Scheduled"} onChange={(e) => updateDoctorForm(appointment.id, "status", e.target.value)}>
                   <option>Scheduled</option>
-                  <option>In progress</option>
+                  <option>Consultation</option>
                   <option>Completed</option>
                 </select>
                 <label>Lab tests</label>
+                <select multiple value={(doctorForms[appointment.id]?.labTests || "").split(", ").filter(Boolean)} onChange={(e) => updateMultiSelect(appointment.id, "labTests", e.target.selectedOptions)}>
+                  {currentLabTests.map((test) => <option key={test} value={test}>{test}</option>)}
+                </select>
+                <label>Physical Tests Done</label>
                 <div className="checkbox-grid">
-                  {labTestOptions.map((labTest) => (
-                    <label className="checkbox-row" key={labTest}>
-                      <input
-                        type="checkbox"
-                        checked={(doctorForms[appointment.id]?.labTests || "").split(", ").includes(labTest)}
-                        onChange={() => toggleLabTest(appointment.id, labTest)}
-                      />
-                      {labTest}
+                  {physicalTests.map((test) => (
+                    <label className="checkbox-row" key={test}>
+                      <input type="checkbox" checked={(doctorForms[appointment.id]?.physicalTests || "").split(", ").includes(test)} onChange={() => toggleListValue(appointment.id, "physicalTests", test)} />
+                      {test}
                     </label>
                   ))}
                 </div>
+                <label>Result of Interview / Patient Description</label>
+                <textarea value={doctorForms[appointment.id]?.resultOfInterview || ""} onChange={(e) => updateDoctorForm(appointment.id, "resultOfInterview", e.target.value)} />
                 <label>Diagnosis</label>
-                <textarea
-                  placeholder="Example: migraine symptoms"
-                  value={doctorForms[appointment.id]?.diagnosis || ""}
-                  onChange={(e) => updateDoctorForm(appointment.id, "diagnosis", e.target.value)}
-                />
-                <label>Doctor notes / test results</label>
-                <textarea
-                  placeholder="Example: blood test requested or result notes"
-                  value={doctorForms[appointment.id]?.testNotes || ""}
-                  onChange={(e) => updateDoctorForm(appointment.id, "testNotes", e.target.value)}
-                />
-                <button type="button" onClick={() => saveDoctorUpdate(appointment.id)}>
-                  Save appointment changes
-                </button>
+                <textarea value={doctorForms[appointment.id]?.diagnosis || ""} onChange={(e) => updateDoctorForm(appointment.id, "diagnosis", e.target.value)} />
+                <label>Notes</label>
+                <textarea placeholder="Extra remarks only" value={doctorForms[appointment.id]?.notes || ""} onChange={(e) => updateDoctorForm(appointment.id, "notes", e.target.value)} />
+                <button type="button" onClick={() => saveDoctorUpdate(appointment.id)}>Perform / Complete Consultation</button>
               </div>
             ))}
           </div>
+        </section>
+      )}
 
-          <div className="panel full-width">
-            <h2>Patient lookup</h2>
-            {patients.length === 0 && <p>No patient accounts created yet.</p>}
-            {patients.map((patient) => (
+      {/* Receptionist/Admin dashboard: clinic data and appointment history. */}
+      {user.role === "RECEPTIONIST_ADMIN" && (
+        <section className="dashboard-grid">
+          <div className="panel">
+            <h2>Patient Data</h2>
+            {visiblePatients.map((patient) => (
               <div className="appointment" key={patient.id}>
                 <strong>{patient.firstName} {patient.lastName}</strong>
                 <span>Email: {patient.email}</span>
                 <span>Insurance ID: {patient.insuranceId}</span>
                 <span>National ID: {patient.nationalId}</span>
+              </div>
+            ))}
+          </div>
+          <div className="panel">
+            <h2>Doctor Data</h2>
+            {doctors.map((doctor) => (
+              <div className="appointment" key={doctor.id}>
+                <strong>Dr. {doctor.firstName} {doctor.lastName}</strong>
+                <span>Email: {doctor.email}</span>
+                <span>Specialization: {doctor.specialization}</span>
+                <span>NPWZ ID: {doctor.npwzId}</span>
+              </div>
+            ))}
+          </div>
+          <div className="panel full-width">
+            <h2>Appointments / History</h2>
+            {shownAppointments.map((appointment) => (
+              <div className="appointment" key={appointment.id}>
+                <strong>{appointment.patientName} with Dr. {appointment.doctorName}</strong>
+                <span>Date: {appointment.dateTime}</span>
+                <span>Status: {appointment.status}</span>
+                <span>Lab tests: {appointment.labTests || "None"}</span>
+                <span>Physical tests: {appointment.physicalTests || "None"}</span>
+                <button type="button" className="danger" onClick={() => deleteAppointment(appointment.id)}>Delete appointment</button>
               </div>
             ))}
           </div>
@@ -506,5 +594,26 @@ function App() {
   );
 }
 
-// This exports App so main.jsx can display it.
+// Reusable appointment list panel.
+function AppointmentList({ appointments, patientView }) {
+  return (
+    <div className="panel">
+      <h2>{patientView ? "My appointments" : "Appointments"}</h2>
+      {appointments.length === 0 && <p>No appointments found.</p>}
+      {appointments.map((appointment) => (
+        <div className="appointment" key={appointment.id}>
+          <strong>{appointment.patientName} with Dr. {appointment.doctorName}</strong>
+          <span>Date: {appointment.dateTime}</span>
+          <span>Status: {appointment.status}</span>
+          <span>Lab tests: {appointment.labTests || "None"}</span>
+          <span>Physical tests: {appointment.physicalTests || "None"}</span>
+          <span>Diagnosis: {appointment.diagnosis || "Not added"}</span>
+          <span>Result of interview: {appointment.resultOfInterview || appointment.visitReason}</span>
+          <span>Notes: {appointment.notes || "None"}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default App;
