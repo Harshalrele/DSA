@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -20,6 +22,9 @@ import java.util.concurrent.ConcurrentHashMap;
 // Service layer with the clinic rules and role checks.
 @Service
 public class ClinicService {
+    // Matches the date text sent by the frontend date and time inputs.
+    private static final DateTimeFormatter VISIT_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     // User table access.
     private final UserRepository userRepository;
 
@@ -100,12 +105,30 @@ public class ClinicService {
     // Doctor-only action: add one available appointment time.
     public AvailabilitySlot addAvailability(String authorization, AvailabilityRequest request) {
         UserAccount doctor = requireRole(authorization, Role.DOCTOR);
+        String startTime = cleanTime(request.dateTime());
+        String endTime = cleanTime(request.endDateTime());
+
+        // A visit must have both a start and an end time.
+        if (startTime.isBlank() || endTime.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Start and end time are required");
+        }
+
+        // The end time must be after the start time.
+        if (!parseTime(endTime).isAfter(parseTime(startTime))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "End time must be after start time");
+        }
+
+        // Do not create the same doctor time twice.
+        if (availabilitySlotRepository.findByDoctorEmailAndDateTime(doctor.getEmail(), startTime).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This time slot is already occupied.");
+        }
 
         AvailabilitySlot slot = new AvailabilitySlot();
         slot.setDoctorEmail(doctor.getEmail());
         slot.setDoctorName(doctor.getFirstName() + " " + doctor.getLastName());
         slot.setDoctorSpecialization(doctor.getSpecialization());
-        slot.setDateTime(request.dateTime());
+        slot.setDateTime(startTime);
+        slot.setEndDateTime(endTime);
         slot.setBooked(false);
         return availabilitySlotRepository.save(slot);
     }
@@ -113,23 +136,30 @@ public class ClinicService {
     // Loads availability slots for booking and doctor schedules.
     public List<AvailabilitySlot> availability(String authorization, String doctorEmail, boolean onlyOpen) {
         requireLogin(authorization);
+        List<AvailabilitySlot> slots;
         if (onlyOpen) {
-            return availabilitySlotRepository.findByBookedFalse();
+            slots = availabilitySlotRepository.findByBookedFalse();
+        } else if (doctorEmail != null && !doctorEmail.isBlank()) {
+            slots = availabilitySlotRepository.findByDoctorEmail(clean(doctorEmail));
+        } else {
+            slots = availabilitySlotRepository.findAll();
         }
-        if (doctorEmail != null && !doctorEmail.isBlank()) {
-            return availabilitySlotRepository.findByDoctorEmail(clean(doctorEmail));
-        }
-        return availabilitySlotRepository.findAll();
+
+        // Old times are hidden so patients cannot book expired visits.
+        return slots.stream()
+                .filter(slot -> !isPast(slot.getDateTime()))
+                .toList();
     }
 
     // Patient-only action: book one available doctor slot.
-    public Appointment createAppointment(String authorization, AppointmentRequest request) {
+    // Synchronized stops two patients booking the same slot at the same moment.
+    public synchronized Appointment createAppointment(String authorization, AppointmentRequest request) {
         UserAccount loggedInPatient = requireRole(authorization, Role.PATIENT);
         String doctorEmail = clean(request.doctorEmail());
         String patientEmail = loggedInPatient.getEmail();
 
         // Stop double-booking for the same doctor and time.
-        if (appointmentRepository.existsByDoctorEmailAndDateTime(doctorEmail, request.dateTime())) {
+        if (appointmentRepository.existsByDoctorEmailAndDateTimeAndStatusNot(doctorEmail, request.dateTime(), "History")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This time slot is already occupied.");
         }
 
@@ -143,6 +173,9 @@ public class ClinicService {
         // The requested time must come from the doctor's availability table.
         AvailabilitySlot slot = availabilitySlotRepository.findByDoctorEmailAndDateTime(doctorEmail, request.dateTime())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Choose an available time slot"));
+        if (isPast(slot.getDateTime())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Choose an available time slot");
+        }
         if (slot.isBooked()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This time slot is already occupied.");
         }
@@ -155,7 +188,8 @@ public class ClinicService {
         appointment.setDoctorEmail(doctor.getEmail());
         appointment.setDoctorName(doctor.getFirstName() + " " + doctor.getLastName());
         appointment.setDoctorSpecialization(doctor.getSpecialization());
-        appointment.setDateTime(request.dateTime());
+        appointment.setDateTime(slot.getDateTime());
+        appointment.setEndDateTime(slot.getEndDateTime());
         appointment.setVisitReason(request.visitReason());
         appointment.setStatus("Scheduled");
         appointment.setLabTests("");
@@ -186,7 +220,34 @@ public class ClinicService {
         return appointmentRepository.save(appointment);
     }
 
-    // Admin-only action: delete an appointment and reopen its time slot.
+    // Admin-only action: edit the saved time of a history appointment.
+    public Appointment updateHistoryTime(String authorization, Long id, AppointmentTimeRequest request) {
+        requireRole(authorization, Role.RECEPTIONIST_ADMIN);
+        Appointment appointment = findAppointment(id);
+        String startTime = cleanTime(request.dateTime());
+        String endTime = cleanTime(request.endDateTime());
+
+        // Only history records can be changed from the history screen.
+        if (!"History".equals(appointment.getStatus())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only history appointments can be edited here");
+        }
+
+        // A history time must still have both a start and an end.
+        if (startTime.isBlank() || endTime.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Start and end time are required");
+        }
+
+        // The consultation cannot end before it starts.
+        if (!parseTime(endTime).isAfter(parseTime(startTime))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "End time must be after start time");
+        }
+
+        appointment.setDateTime(startTime);
+        appointment.setEndDateTime(endTime);
+        return appointmentRepository.save(appointment);
+    }
+
+    // Admin-only action: move an appointment to history and reopen its time slot.
     public void deleteAppointment(String authorization, Long id) {
         requireRole(authorization, Role.RECEPTIONIST_ADMIN);
         Appointment appointment = findAppointment(id);
@@ -195,7 +256,8 @@ public class ClinicService {
                     slot.setBooked(false);
                     availabilitySlotRepository.save(slot);
                 });
-        appointmentRepository.deleteById(id);
+        appointment.setStatus("History");
+        appointmentRepository.save(appointment);
     }
 
     // Appointment list depends on the role of the logged-in user.
@@ -275,5 +337,28 @@ public class ClinicService {
     // Trims spaces and makes emails lowercase.
     private String clean(String value) {
         return value == null ? "" : value.trim().toLowerCase();
+    }
+
+    // Trims spaces without changing date and time text.
+    private String cleanTime(String value) {
+        return value == null ? "" : value.trim();
+    }
+
+    // Converts frontend date text into a Java date object.
+    private LocalDateTime parseTime(String value) {
+        try {
+            return LocalDateTime.parse(value, VISIT_TIME_FORMAT);
+        } catch (RuntimeException exception) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Use a valid date and time");
+        }
+    }
+
+    // Checks if a doctor time slot has already passed.
+    private boolean isPast(String value) {
+        try {
+            return LocalDateTime.parse(value, VISIT_TIME_FORMAT).isBefore(LocalDateTime.now());
+        } catch (RuntimeException exception) {
+            return true;
+        }
     }
 }

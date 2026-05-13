@@ -11,6 +11,9 @@ public record AppointmentRequest(
         // Selected date and start time.
         String dateTime,
 
+        // Selected date and end time.
+        String endDateTime,
+
         // Patient symptom or illness description.
         String visitReason
 ) {

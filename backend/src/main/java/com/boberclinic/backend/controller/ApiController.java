@@ -97,8 +97,19 @@ public class ApiController {
         return clinicService.updateAppointment(authorization, id, request);
     }
 
+    // Admin endpoint for editing the time of a history appointment.
+    @PostMapping("/appointments/{id}/admin-time")
+    public Appointment saveHistoryTime(
+            @RequestHeader(value = "Authorization", required = false) String authorization,
+            @PathVariable Long id,
+            @RequestBody AppointmentTimeRequest request
+    ) {
+        return clinicService.updateHistoryTime(authorization, id, request);
+    }
+
     // Admin endpoint for deleting appointments.
     @DeleteMapping("/appointments/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAppointment(
             @RequestHeader(value = "Authorization", required = false) String authorization,
             @PathVariable Long id

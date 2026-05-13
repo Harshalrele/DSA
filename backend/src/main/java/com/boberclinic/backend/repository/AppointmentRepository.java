@@ -16,6 +16,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     // Appointments for one doctor.
     List<Appointment> findByDoctorEmail(String doctorEmail);
 
-    // Prevents one doctor from being booked twice at the same time.
-    boolean existsByDoctorEmailAndDateTime(String doctorEmail, String dateTime);
+    // Prevents one doctor from being booked twice, but ignores history rows.
+    boolean existsByDoctorEmailAndDateTimeAndStatusNot(String doctorEmail, String dateTime, String status);
 }

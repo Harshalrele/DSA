@@ -67,6 +67,41 @@ const defaultFilters = {
   scope: "My visits"
 };
 
+// Reception starts on all appointments because "My visits" is only for doctors.
+function filtersForRole(role) {
+  return {
+    ...defaultFilters,
+    scope: role === "RECEPTIONIST_ADMIN" ? "All appointments" : "My visits"
+  };
+}
+
+// Shows the appointment start and end time together.
+function formatVisitTime(item) {
+  return item.endDateTime ? `${item.dateTime} to ${item.endDateTime}` : item.dateTime;
+}
+
+// Splits saved appointment time into form fields.
+function splitVisitTime(item) {
+  const [date = "", time = ""] = (item.dateTime || "").split(" ");
+  const [, endTime = ""] = (item.endDateTime || "").split(" ");
+  return { date, time, endTime };
+}
+
+// Text used by the shared patient/doctor search.
+function appointmentSearchText(appointment) {
+  return `${appointment.patientName} ${appointment.patientEmail} ${appointment.doctorName} ${appointment.doctorEmail}`.toLowerCase();
+}
+
+// Text used when searching one patient account.
+function patientSearchText(patient) {
+  return `${patient.firstName} ${patient.lastName} ${patient.email}`.toLowerCase();
+}
+
+// Text used when searching one doctor account.
+function doctorSearchText(doctor) {
+  return `${doctor.firstName} ${doctor.lastName} ${doctor.email} ${doctor.specialization}`.toLowerCase();
+}
+
 function App() {
   // Current page: login, register, or dashboard.
   const [page, setPage] = useState("login");
@@ -95,13 +130,20 @@ function App() {
   // Doctor consultation forms, grouped by appointment id.
   const [doctorForms, setDoctorForms] = useState({});
 
+  // Reception history time forms, grouped by appointment id.
+  const [historyForms, setHistoryForms] = useState({});
+
+  // Completed consultation selected by the doctor for viewing or editing.
+  const [selectedCompletedId, setSelectedCompletedId] = useState(null);
+
   // Dashboard filter fields.
   const [filters, setFilters] = useState(defaultFilters);
 
   // Doctor availability form fields.
   const [availabilityForm, setAvailabilityForm] = useState({
     date: "",
-    time: ""
+    time: "",
+    endTime: ""
   });
 
   // Patient booking form fields.
@@ -144,7 +186,9 @@ function App() {
     if (response.status === 204) {
       return null;
     }
-    return response.json();
+    // Empty backend replies do not need JSON parsing.
+    const responseText = await response.text();
+    return responseText ? JSON.parse(responseText) : null;
   }
 
   // Sends JSON to the backend.
@@ -168,7 +212,10 @@ function App() {
 
   // Loads open doctor appointment times.
   async function loadAvailability() {
-    setAvailability(await api("/availability?onlyOpen=true"));
+    const path = user?.role === "DOCTOR"
+      ? `/availability?doctorEmail=${encodeURIComponent(user.email)}`
+      : "/availability?onlyOpen=true";
+    setAvailability(await api(path));
   }
 
   // Loads only the appointments allowed for the logged-in role.
@@ -186,6 +233,10 @@ function App() {
       };
       return forms;
     }, {}));
+    setHistoryForms(loadedAppointments.reduce((forms, appointment) => {
+      forms[appointment.id] = splitVisitTime(appointment);
+      return forms;
+    }, {}));
   }
 
   // Signs in and opens the dashboard.
@@ -197,7 +248,7 @@ function App() {
       setUser(loginResult.user);
       setPage("dashboard");
       setMessage("");
-      setFilters(defaultFilters);
+      setFilters(filtersForRole(loginResult.user.role));
     } catch {
       setMessage("Bad credentials. Check email and password.");
     }
@@ -222,13 +273,14 @@ function App() {
     try {
       await sendJson("/availability", {
         doctorEmail: user.email,
-        dateTime: `${availabilityForm.date} ${availabilityForm.time}`
+        dateTime: `${availabilityForm.date} ${availabilityForm.time}`,
+        endDateTime: `${availabilityForm.date} ${availabilityForm.endTime}`
       });
-      setAvailabilityForm({ date: "", time: "" });
+      setAvailabilityForm({ date: "", time: "", endTime: "" });
       await loadAvailability();
       setMessage("Availability added.");
-    } catch {
-      setMessage("Could not add availability.");
+    } catch (error) {
+      setMessage(error.message);
     }
   }
 
@@ -245,6 +297,7 @@ function App() {
         patientEmail: user.email,
         doctorEmail: selectedSlot.doctorEmail,
         dateTime: selectedSlot.dateTime,
+        endDateTime: selectedSlot.endDateTime,
         visitReason: appointmentForm.visitReason
       });
       setAppointmentForm({ slot: "", visitReason: "" });
@@ -256,12 +309,19 @@ function App() {
     }
   }
 
-  // Saves doctor consultation changes.
-  async function saveDoctorUpdate(appointmentId) {
+  // Saves doctor consultation changes and can force a new status.
+  async function saveDoctorUpdate(appointmentId, nextStatus) {
     try {
-      await sendJson(`/appointments/${appointmentId}/doctor-update`, doctorForms[appointmentId]);
+      const form = {
+        ...doctorForms[appointmentId],
+        status: nextStatus || doctorForms[appointmentId]?.status || "Scheduled"
+      };
+      await sendJson(`/appointments/${appointmentId}/doctor-update`, form);
       await loadAppointments();
-      setMessage("Appointment updated.");
+      if (form.status === "Completed") {
+        setSelectedCompletedId(appointmentId);
+      }
+      setMessage(`Appointment saved as ${form.status}.`);
     } catch {
       setMessage("Could not update appointment.");
     }
@@ -273,9 +333,24 @@ function App() {
       await api(`/appointments/${appointmentId}`, { method: "DELETE" });
       await loadAppointments();
       await loadAvailability();
-      setMessage("Appointment deleted.");
+      setMessage("Appointment moved to history.");
     } catch {
       setMessage("Could not delete appointment.");
+    }
+  }
+
+  // Saves edited history timing for the receptionist/admin.
+  async function saveHistoryTime(appointmentId) {
+    const form = historyForms[appointmentId];
+    try {
+      await sendJson(`/appointments/${appointmentId}/admin-time`, {
+        dateTime: `${form.date} ${form.time}`,
+        endDateTime: `${form.date} ${form.endTime}`
+      });
+      await loadAppointments();
+      setMessage("History time updated.");
+    } catch {
+      setMessage("Could not update history time.");
     }
   }
 
@@ -294,6 +369,17 @@ function App() {
       ...doctorForms,
       [appointmentId]: {
         ...doctorForms[appointmentId],
+        [field]: value
+      }
+    });
+  }
+
+  // Updates one receptionist history time field.
+  function updateHistoryForm(appointmentId, field, value) {
+    setHistoryForms({
+      ...historyForms,
+      [appointmentId]: {
+        ...historyForms[appointmentId],
         [field]: value
       }
     });
@@ -319,30 +405,109 @@ function App() {
   const shownAppointments = useMemo(() => {
     const today = new Date().toISOString().slice(0, 10);
     return appointments.filter((appointment) => {
-      const text = `${appointment.patientName} ${appointment.doctorName}`.toLowerCase();
-      const matchesSearch = user?.role === "PATIENT" || text.includes(filters.search.toLowerCase());
+      const search = filters.search.toLowerCase();
+      const isHistory = appointment.status === "History";
+      const matchesSearch = user?.role === "PATIENT" || appointmentSearchText(appointment).includes(search);
       const matchesDate = !filters.date || appointment.dateTime.startsWith(filters.date);
       const matchesStatus = !filters.status || appointment.status === filters.status;
-      const matchesScope =
-        filters.scope === "All appointments" ||
-        filters.scope === "Today schedule" && appointment.dateTime.startsWith(today) ||
-        filters.scope === "My visits";
+
+      // Reception history is separated from normal appointments.
+      const matchesScope = user?.role === "RECEPTIONIST_ADMIN"
+        ? filters.scope === "History"
+          ? isHistory
+          : !isHistory && (filters.scope === "All appointments" || appointment.dateTime.startsWith(today))
+        : !isHistory && (
+          filters.scope === "All appointments" ||
+          filters.scope === "Today schedule" && appointment.dateTime.startsWith(today) ||
+          filters.scope === "My visits"
+        );
       return matchesSearch && matchesDate && matchesStatus && matchesScope;
     });
   }, [appointments, filters, user?.role]);
 
+  // Reception search matches appointments first, then shows connected patients.
+  const linkedAppointments = useMemo(() => {
+    const search = filters.search.toLowerCase();
+    if (!search) {
+      return appointments;
+    }
+    return appointments.filter((appointment) => appointmentSearchText(appointment).includes(search));
+  }, [appointments, filters.search]);
+
   // Staff patient search.
   const visiblePatients = useMemo(() => {
     const search = filters.search.toLowerCase();
+    const linkedPatientEmails = new Set(linkedAppointments.map((appointment) => appointment.patientEmail));
     return patients.filter((patient) =>
-      `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(search)
+      !search || patientSearchText(patient).includes(search) || linkedPatientEmails.has(patient.email)
     );
-  }, [patients, filters.search]);
+  }, [patients, filters.search, linkedAppointments]);
+
+  // Reception search shows doctors directly or through their appointments.
+  const visibleDoctors = useMemo(() => {
+    const search = filters.search.toLowerCase();
+    const linkedDoctorEmails = new Set(linkedAppointments.map((appointment) => appointment.doctorEmail));
+    return doctors.filter((doctor) =>
+      !search || doctorSearchText(doctor).includes(search) || linkedDoctorEmails.has(doctor.email)
+    );
+  }, [doctors, filters.search, linkedAppointments]);
+
+  // Doctor work is split by appointment status.
+  const scheduledDoctorAppointments = shownAppointments.filter((appointment) => appointment.status === "Scheduled");
+  const consultationDoctorAppointments = shownAppointments.filter((appointment) => appointment.status === "Consultation");
+  const completedDoctorAppointments = shownAppointments.filter((appointment) => appointment.status === "Completed");
+  const selectedCompletedAppointment = completedDoctorAppointments.find((appointment) => appointment.id === selectedCompletedId);
 
   // Specialists get extra lab test options.
   const currentLabTests = user?.role === "DOCTOR" && user.specialization !== "Family medicine"
     ? [...baseLabTests, ...specialistTests]
     : baseLabTests;
+
+  // Reusable doctor form for active and completed consultations.
+  function renderDoctorConsultation(appointment) {
+    return (
+      <div className="appointment consultation-card" key={appointment.id}>
+        <div className="visit-heading">
+          <div>
+            <strong>{appointment.patientName}</strong>
+            <span>{formatVisitTime(appointment)}</span>
+          </div>
+          <span className="status-pill">{doctorForms[appointment.id]?.status || appointment.status}</span>
+        </div>
+        <span>Insurance ID: {appointment.patientInsuranceId}</span>
+        <span>Patient description: {appointment.visitReason || "Not added"}</span>
+        <label>Status</label>
+        <select value={doctorForms[appointment.id]?.status || "Scheduled"} onChange={(e) => updateDoctorForm(appointment.id, "status", e.target.value)}>
+          <option>Scheduled</option>
+          <option>Consultation</option>
+          <option>Completed</option>
+        </select>
+        <label>Lab tests</label>
+        <select multiple value={(doctorForms[appointment.id]?.labTests || "").split(", ").filter(Boolean)} onChange={(e) => updateMultiSelect(appointment.id, "labTests", e.target.selectedOptions)}>
+          {currentLabTests.map((test) => <option key={test} value={test}>{test}</option>)}
+        </select>
+        <label>Physical Tests Done</label>
+        <div className="checkbox-grid">
+          {physicalTests.map((test) => (
+            <label className="checkbox-row" key={test}>
+              <input type="checkbox" checked={(doctorForms[appointment.id]?.physicalTests || "").split(", ").includes(test)} onChange={() => toggleListValue(appointment.id, "physicalTests", test)} />
+              {test}
+            </label>
+          ))}
+        </div>
+        <label>Result of Interview / Patient Description</label>
+        <textarea value={doctorForms[appointment.id]?.resultOfInterview || ""} onChange={(e) => updateDoctorForm(appointment.id, "resultOfInterview", e.target.value)} />
+        <label>Diagnosis</label>
+        <textarea value={doctorForms[appointment.id]?.diagnosis || ""} onChange={(e) => updateDoctorForm(appointment.id, "diagnosis", e.target.value)} />
+        <label>Notes</label>
+        <textarea placeholder="Extra remarks only" value={doctorForms[appointment.id]?.notes || ""} onChange={(e) => updateDoctorForm(appointment.id, "notes", e.target.value)} />
+        <div className="button-row">
+          <button type="button" onClick={() => saveDoctorUpdate(appointment.id, "Consultation")}>Save as Consultation</button>
+          <button type="button" onClick={() => saveDoctorUpdate(appointment.id, "Completed")}>Complete Consultation</button>
+        </div>
+      </div>
+    );
+  }
 
   // Sign-in page.
   if (page === "login") {
@@ -445,8 +610,11 @@ function App() {
       {message && <p className="message">{message}</p>}
 
       <section className="filters">
-        {user.role !== "PATIENT" && (
+        {user.role === "DOCTOR" && (
           <input placeholder="Search patient by first or last name" value={filters.search} onChange={(e) => setFilters({ ...filters, search: e.target.value })} />
+        )}
+        {user.role === "RECEPTIONIST_ADMIN" && (
+          <input placeholder="Search patient or doctor" value={filters.search} onChange={(e) => setFilters({ ...filters, search: e.target.value })} />
         )}
         <input type="date" value={filters.date} onChange={(e) => setFilters({ ...filters, date: e.target.value })} />
         <select value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })}>
@@ -455,11 +623,17 @@ function App() {
           <option>Consultation</option>
           <option>Completed</option>
         </select>
-        {user.role !== "PATIENT" && (
+        {user.role === "DOCTOR" && (
           <select value={filters.scope} onChange={(e) => setFilters({ ...filters, scope: e.target.value })}>
             <option>My visits</option>
             <option>Today schedule</option>
+          </select>
+        )}
+        {user.role === "RECEPTIONIST_ADMIN" && (
+          <select value={filters.scope} onChange={(e) => setFilters({ ...filters, scope: e.target.value })}>
             <option>All appointments</option>
+            <option>Today schedule</option>
+            <option>History</option>
           </select>
         )}
       </section>
@@ -475,7 +649,7 @@ function App() {
                 <option value="">Choose available doctor time</option>
                 {availability.map((slot) => (
                   <option key={slot.id} value={slot.id}>
-                    Dr. {slot.doctorName} - {slot.doctorSpecialization} - {slot.dateTime}
+                    Dr. {slot.doctorName} - {slot.doctorSpecialization} - {formatVisitTime(slot)}
                   </option>
                 ))}
               </select>
@@ -498,6 +672,8 @@ function App() {
               <input type="date" value={availabilityForm.date} onChange={(e) => setAvailabilityForm({ ...availabilityForm, date: e.target.value })} />
               <label>Start time</label>
               <input type="time" value={availabilityForm.time} onChange={(e) => setAvailabilityForm({ ...availabilityForm, time: e.target.value })} />
+              <label>End time</label>
+              <input type="time" value={availabilityForm.endTime} onChange={(e) => setAvailabilityForm({ ...availabilityForm, endTime: e.target.value })} />
               <button type="submit">Add available time</button>
             </form>
           </div>
@@ -505,47 +681,48 @@ function App() {
             <h2>My Availability</h2>
             {availability.filter((slot) => slot.doctorEmail === user.email).map((slot) => (
               <div className="appointment" key={slot.id}>
-                <strong>{slot.dateTime}</strong>
+                <strong>{formatVisitTime(slot)}</strong>
                 <span>{slot.booked ? "Booked" : "Open"}</span>
               </div>
             ))}
           </div>
           <div className="panel full-width">
-            <h2>My Visits / Consultation</h2>
-            {shownAppointments.map((appointment) => (
-              <div className="appointment" key={appointment.id}>
-                <strong>{appointment.patientName}</strong>
-                <span>Insurance ID: {appointment.patientInsuranceId}</span>
-                <span>Date: {appointment.dateTime}</span>
-                <span>Patient description: {appointment.visitReason}</span>
-                <label>Status</label>
-                <select value={doctorForms[appointment.id]?.status || "Scheduled"} onChange={(e) => updateDoctorForm(appointment.id, "status", e.target.value)}>
-                  <option>Scheduled</option>
-                  <option>Consultation</option>
-                  <option>Completed</option>
-                </select>
-                <label>Lab tests</label>
-                <select multiple value={(doctorForms[appointment.id]?.labTests || "").split(", ").filter(Boolean)} onChange={(e) => updateMultiSelect(appointment.id, "labTests", e.target.selectedOptions)}>
-                  {currentLabTests.map((test) => <option key={test} value={test}>{test}</option>)}
-                </select>
-                <label>Physical Tests Done</label>
-                <div className="checkbox-grid">
-                  {physicalTests.map((test) => (
-                    <label className="checkbox-row" key={test}>
-                      <input type="checkbox" checked={(doctorForms[appointment.id]?.physicalTests || "").split(", ").includes(test)} onChange={() => toggleListValue(appointment.id, "physicalTests", test)} />
-                      {test}
-                    </label>
-                  ))}
-                </div>
-                <label>Result of Interview / Patient Description</label>
-                <textarea value={doctorForms[appointment.id]?.resultOfInterview || ""} onChange={(e) => updateDoctorForm(appointment.id, "resultOfInterview", e.target.value)} />
-                <label>Diagnosis</label>
-                <textarea value={doctorForms[appointment.id]?.diagnosis || ""} onChange={(e) => updateDoctorForm(appointment.id, "diagnosis", e.target.value)} />
-                <label>Notes</label>
-                <textarea placeholder="Extra remarks only" value={doctorForms[appointment.id]?.notes || ""} onChange={(e) => updateDoctorForm(appointment.id, "notes", e.target.value)} />
-                <button type="button" onClick={() => saveDoctorUpdate(appointment.id)}>Perform / Complete Consultation</button>
+            <h2>Scheduled Visits</h2>
+            {scheduledDoctorAppointments.length === 0 && <p>No scheduled visits.</p>}
+            <div className="consultation-list">
+              {scheduledDoctorAppointments.map((appointment) => renderDoctorConsultation(appointment))}
+            </div>
+          </div>
+          <div className="panel full-width">
+            <h2>Consultation</h2>
+            {consultationDoctorAppointments.length === 0 && <p>No consultations started.</p>}
+            <div className="consultation-list">
+              {consultationDoctorAppointments.map((appointment) => renderDoctorConsultation(appointment))}
+            </div>
+          </div>
+          <div className="panel full-width">
+            <h2>Completed Consultations</h2>
+            {completedDoctorAppointments.length === 0 && <p>No completed consultations.</p>}
+            <div className="completed-layout">
+              <div className="completed-list">
+                {completedDoctorAppointments.map((appointment) => (
+                  <button
+                    className={`completed-card ${selectedCompletedId === appointment.id ? "selected" : ""}`}
+                    key={appointment.id}
+                    type="button"
+                    onClick={() => setSelectedCompletedId(appointment.id)}
+                  >
+                    <strong>{appointment.patientName}</strong>
+                    <span>{formatVisitTime(appointment)}</span>
+                  </button>
+                ))}
               </div>
-            ))}
+              <div className="completed-detail">
+                {selectedCompletedAppointment
+                  ? renderDoctorConsultation(selectedCompletedAppointment)
+                  : <p>Click a completed consultation to view or edit details.</p>}
+              </div>
+            </div>
           </div>
         </section>
       )}
@@ -566,7 +743,7 @@ function App() {
           </div>
           <div className="panel">
             <h2>Doctor Data</h2>
-            {doctors.map((doctor) => (
+            {visibleDoctors.map((doctor) => (
               <div className="appointment" key={doctor.id}>
                 <strong>Dr. {doctor.firstName} {doctor.lastName}</strong>
                 <span>Email: {doctor.email}</span>
@@ -580,11 +757,24 @@ function App() {
             {shownAppointments.map((appointment) => (
               <div className="appointment" key={appointment.id}>
                 <strong>{appointment.patientName} with Dr. {appointment.doctorName}</strong>
-                <span>Date: {appointment.dateTime}</span>
+                <span>Date: {formatVisitTime(appointment)}</span>
                 <span>Status: {appointment.status}</span>
                 <span>Lab tests: {appointment.labTests || "None"}</span>
                 <span>Physical tests: {appointment.physicalTests || "None"}</span>
-                <button type="button" className="danger" onClick={() => deleteAppointment(appointment.id)}>Delete appointment</button>
+                {appointment.status === "History" && (
+                  <div className="history-edit">
+                    <label>Date</label>
+                    <input type="date" value={historyForms[appointment.id]?.date || ""} onChange={(e) => updateHistoryForm(appointment.id, "date", e.target.value)} />
+                    <label>Start time</label>
+                    <input type="time" value={historyForms[appointment.id]?.time || ""} onChange={(e) => updateHistoryForm(appointment.id, "time", e.target.value)} />
+                    <label>End time</label>
+                    <input type="time" value={historyForms[appointment.id]?.endTime || ""} onChange={(e) => updateHistoryForm(appointment.id, "endTime", e.target.value)} />
+                    <button type="button" onClick={() => saveHistoryTime(appointment.id)}>Save history time</button>
+                  </div>
+                )}
+                {appointment.status !== "History" && (
+                  <button type="button" className="danger" onClick={() => deleteAppointment(appointment.id)}>Move to history</button>
+                )}
               </div>
             ))}
           </div>
@@ -603,7 +793,7 @@ function AppointmentList({ appointments, patientView }) {
       {appointments.map((appointment) => (
         <div className="appointment" key={appointment.id}>
           <strong>{appointment.patientName} with Dr. {appointment.doctorName}</strong>
-          <span>Date: {appointment.dateTime}</span>
+          <span>Date: {formatVisitTime(appointment)}</span>
           <span>Status: {appointment.status}</span>
           <span>Lab tests: {appointment.labTests || "None"}</span>
           <span>Physical tests: {appointment.physicalTests || "None"}</span>

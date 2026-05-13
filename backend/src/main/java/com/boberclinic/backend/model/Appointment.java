@@ -21,8 +21,9 @@ public class Appointment {
     private String doctorName;
     private String doctorSpecialization;
 
-    // Appointment time and current status.
+    // Appointment start time, end time, and current status.
     private String dateTime;
+    private String endDateTime;
     private String status;
 
     // Patient symptom or illness description.
@@ -51,6 +52,8 @@ public class Appointment {
     public void setDoctorSpecialization(String doctorSpecialization) { this.doctorSpecialization = doctorSpecialization; }
     public String getDateTime() { return dateTime; }
     public void setDateTime(String dateTime) { this.dateTime = dateTime; }
+    public String getEndDateTime() { return endDateTime; }
+    public void setEndDateTime(String endDateTime) { this.endDateTime = endDateTime; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
     public String getVisitReason() { return visitReason; }

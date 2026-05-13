@@ -141,6 +141,13 @@ button {
   padding: 13px 18px;
 }
 
+/* Row for doctor save buttons. */
+.button-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
 /* Secondary button style. */
 .secondary {
   width: 100%;
@@ -187,7 +194,7 @@ header {
 /* Search and filter controls. */
 .filters {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 12px;
   margin-bottom: 24px;
 }
@@ -201,8 +208,84 @@ header {
 .appointment {
   display: grid;
   gap: 6px;
-  border-bottom: 1px solid #1e293b;
-  padding: 14px 0;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  background: #111827;
+  margin-bottom: 14px;
+  padding: 16px;
+}
+
+/* Space between consultation forms. */
+.consultation-list {
+  display: grid;
+  gap: 18px;
+}
+
+/* Doctor consultation form card. */
+.consultation-card {
+  gap: 12px;
+}
+
+/* Patient name and status line. */
+.visit-heading {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Small status label on consultation cards. */
+.status-pill {
+  border: 1px solid #2563eb;
+  border-radius: 999px;
+  color: #bfdbfe;
+  padding: 6px 10px;
+}
+
+/* Completed list and detail split. */
+.completed-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 18px;
+}
+
+/* Completed consultation buttons. */
+.completed-list {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+/* One completed consultation selector. */
+.completed-card {
+  background: #020617;
+  border: 1px solid #334155;
+  display: grid;
+  gap: 4px;
+  justify-content: stretch;
+  text-align: left;
+  width: 100%;
+}
+
+/* Selected completed consultation. */
+.completed-card.selected {
+  border-color: #2563eb;
+  background: #0b1b3a;
+}
+
+/* Detail area for the selected completed consultation. */
+.completed-detail {
+  min-width: 0;
+}
+
+/* Reception form for editing history timing. */
+.history-edit {
+  border-top: 1px solid #334155;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
 }
 
 /* More room for multi-select dropdowns. */
@@ -220,6 +303,9 @@ select[multiple] {
   .screen,
   .dashboard-grid,
   .grid,
+  .button-row,
+  .completed-layout,
+  .history-edit,
   .filters {
     grid-template-columns: 1fr;
   }
